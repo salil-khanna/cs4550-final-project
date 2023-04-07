@@ -1,0 +1,13 @@
+.horizontal-dropdown-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%; /* Adjust this value to control the width of the dropdown bar */
+    margin-bottom: 1rem;
+  }
+
+
+  
+  .horizontal-dropdown-menu .dropdown-item {
+    white-space: nowrap;
+  }
