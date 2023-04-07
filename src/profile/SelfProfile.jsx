@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import YourProfile from './components/YourProfile';
 import { Container, Row } from 'react-bootstrap';
-import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 
 const SelfProfile = () => {

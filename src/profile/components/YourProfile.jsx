@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row, Button, Container, Dropdown } from 'react-bootstrap';
+import { Col, Container, Dropdown } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import FormContent from './FormContent';
 import styles from './YourProfile.module.css'

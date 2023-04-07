@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import ArtworkData from './ArtworkData';
@@ -16,6 +16,7 @@ const Search = () => {
 
   const isMobile = useMediaQuery({ query: '(max-width: 575px)' });
   const buttonMobileClass = isMobile ? 'text-center mt-2' : '';
+  const inputRef = useRef(null);
 
 
   const shuffleArray = (array) => {
@@ -92,6 +93,7 @@ const Search = () => {
     } else {
       toast.dismiss();
       handleSearch();
+      inputRef.current.blur();
     } 
   };
 
@@ -100,6 +102,7 @@ const Search = () => {
       <form onSubmit={handleSubmit} className="row mt-2">
         <div className="col-12 col-sm-11">
           <input
+            ref={inputRef}
             type="text"
             className="form-control"
             placeholder="Search for art!"
