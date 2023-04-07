@@ -1,0 +1,30 @@
+.header {
+    padding: 10px 0;
+  }
+  
+  .logo-text-container {
+    margin-bottom: 5px;
+  }
+  
+  .header-logo {
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+  }
+  
+  .header-text {
+    font-size: 1.5rem;
+    margin-left: 10px;
+  }
+  
+  .login-btn,
+  .register-btn {
+    margin: 0 10px;
+  }
+  
+  @media (min-width: 768px) {
+    .logo-text-container {
+      margin-bottom: 0;
+    }
+  }
+  

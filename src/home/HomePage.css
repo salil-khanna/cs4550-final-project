@@ -1,0 +1,89 @@
+.home-page {
+    /* height: 100vh; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .logo-and-search {
+    margin-top: 7rem;
+  }
+  .logo {
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+  }
+  
+  .shorten {
+    width: 70%;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .shorten {
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+
+  .search-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+  
+  .search-btn {
+    margin-left: 10px;
+  }
+  
+  /* Responsive styling for the logo and text */
+
+/* For small devices like phones */
+@media (max-width: 575.98px) {
+    .logo {
+      width: 75px;
+    }
+  
+    .gallery-grade-text {
+      font-size: 2rem;
+      margin-left: 10px;
+    }
+  }
+  
+  /* For medium devices like tablets */
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    .logo {
+      width: 100px;
+    }
+  
+    .gallery-grade-text {
+      font-size: 3rem;
+      margin-left: 15px;
+    }
+  }
+  
+  /* For large devices like desktops */
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    .logo {
+      width: 125px;
+    }
+  
+    .gallery-grade-text {
+      font-size: 3.5rem;
+      margin-left: 20px;
+    }
+  }
+  
+  /* For extra large devices like large desktops */
+  @media (min-width: 992px) {
+    .logo {
+      width: 150px;
+    }
+  
+    .gallery-grade-text {
+      font-size: 4rem;
+      margin-left: 20px;
+    }
+  }
+  
