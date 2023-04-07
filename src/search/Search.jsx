@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import ArtworkData from './ArtworkData';
-import Header from '../header/Header';
+import { useMediaQuery } from 'react-responsive';
+import { toast } from 'react-toastify';
 
 const Search = () => {
   const location = useLocation();
@@ -12,6 +13,9 @@ const Search = () => {
   const [searchTerm, setSearchTerm] = useState(state ? state.searchText : '');
   const [artworkData, setArtworkData] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const isMobile = useMediaQuery({ query: '(max-width: 575px)' });
+  const buttonMobileClass = isMobile ? 'text-center mt-2' : '';
 
 
   const shuffleArray = (array) => {
@@ -23,6 +27,7 @@ const Search = () => {
 
   const handleSearch = useCallback( async () => {
     setLoading(true);
+
     const url = `https://api.artic.edu/api/v1/artworks/search?q=${searchTerm}&query[term][is_public_domain]=true&limit=20&fields=id,title,image_id`;
     const response = await axios.get(url);
     const result = response.data;
@@ -48,6 +53,8 @@ const Search = () => {
       const imageInfoResponse = await axios.get(
         `${base_url}/${item.image_id}/info.json`
       );
+      console.log(item)
+      console.log(imageInfoResponse.data)
 
       const { height, width } = imageInfoResponse.data;
       const scaledHeight = (height * 320) / width;
@@ -71,31 +78,42 @@ const Search = () => {
     }
   }, [handleSearch, state, navigate, location.pathname]);
 
+  const toastId = React.useRef(null);
+  const notify = () => toastId.current = toast.error("Search can not be empty!");
+  const update = () => toast.update(toastId.current);
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleSearch();
+    if (searchTerm === '') {
+      if (toast.isActive(toastId.current)) {
+        update();
+      } else {
+        notify();
+      }
+    } else {
+      toast.dismiss();
+      handleSearch();
+    } 
   };
 
   return (
     <div>
-      <Header />
-      <form onSubmit={handleSubmit} className="row">
-        <div className="col-10">
+      <form onSubmit={handleSubmit} className="row mt-2">
+        <div className="col-12 col-sm-11">
           <input
             type="text"
-            className="form-control mt-4"
+            className="form-control"
             placeholder="Search for art!"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="col-2">
-          <button type="submit" className="btn btn-primary mt-4">
+        <div className={`col-12 col-sm-1 ${buttonMobileClass}`}>
+          <button type="submit" className="btn btn-primary">
             Search!
           </button>
         </div>
       </form>
-      <div className="row mt-4">
+      <div className="row mt-4 justify-content-center align-items-center">
         {loading ? (
           <div className="col text-center">
             <h4>Loading...</h4>

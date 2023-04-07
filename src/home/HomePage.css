@@ -21,7 +21,7 @@
 
   @media (max-width: 768px) {
     .shorten {
-      width: 100%;
+      width: 90%;
       margin: 0 auto;
     }
   }
@@ -42,11 +42,11 @@
 /* For small devices like phones */
 @media (max-width: 575.98px) {
     .logo {
-      width: 75px;
+      width: 90px;
     }
   
     .gallery-grade-text {
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin-left: 10px;
     }
   }
