@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 import './Header.css';
+import { toast } from 'react-toastify'
+import LogoHeader from '../img/logo512.png';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -17,6 +19,11 @@ const Header = () => {
 
     
   const displayHeader = pageName !== "home";
+  const user = localStorage.getItem('user');
+  const loggedIn = user !== null;
+  const displayLogin = pageName !== "login" && !loggedIn;
+  const displayRegister = pageName !== "register" && !loggedIn;
+
   const buttonMd = displayHeader ? 6 : 12;
   const buttonJustify = displayHeader ? "justify-content-md-end" : "justify-content-sm-end";
 
@@ -27,19 +34,30 @@ const Header = () => {
         <Col xs={12} md={6} className="d-flex justify-content-center justify-content-md-start logo-text-container">
             <a href="/" style={{textDecoration:'none', color: 'inherit'}}>
                 <div className="d-flex align-items-center">
-                    <Image src="logo512.png" alt="GalleryGrade Logo" className="header-logo" roundedCircle />
+                    <Image src={LogoHeader} alt="GalleryGrade Logo" className="header-logo" roundedCircle />
                     <h3 className="header-text">GalleryGrade</h3>
                 </div>
             </a>
         </Col>
         }
         <Col xs={12} md={buttonMd} className={`d-flex justify-content-center ${buttonJustify} buttons-container`}>
-          <Button size="sm" className="login-btn" onClick={() => navigate('/login')}>
+          {displayLogin && <Button size="sm" className="login-btn" onClick={() => navigate('/login')}>
             Log in
-          </Button>
-          <Button size="sm" className="register-btn" onClick={() => navigate('/register')}>
+          </Button> }
+          {displayRegister && <Button size="sm" className="register-btn" onClick={() => navigate('/register')}>
             Register
-          </Button>
+          </Button>}
+          {loggedIn && <Button size="sm" className="login-btn" onClick={() => navigate('/profile')}>
+            View Profile
+          </Button>}
+          {loggedIn && <Button size="sm" className="register-btn" onClick={() => {
+            localStorage.removeItem('user');
+            localStorage.removeItem('id');
+            navigate('/')
+            toast.success("Logged out successfully!", { duration: 2000});
+            }}>
+            Logout
+          </Button>}
         </Col>
       </Row>
     </Container>

@@ -7,7 +7,7 @@ import Search from './search/Search';
 import Login from './login/Login';
 import Register from './register/Register';
 import SelfProfile from './profile/SelfProfile';
-import OtherProfile from './profile/OtherProfile';
+import ProfileSlug from './profile/ProfileSlug';
 import PageNotFound from './page-not-found/PageNotFound';
 import { ToastContainer } from 'react-toastify';
 import Header from './header/Header';
@@ -25,7 +25,7 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/profile" element={<SelfProfile/>}/>
-            <Route path="/profile/:id" element={<OtherProfile/>}/>
+            <Route path="/profile/:id" element={<ProfileSlug/>}/>
         </Routes>
         <ToastContainer
           position="top-center"

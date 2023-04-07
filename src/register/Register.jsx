@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Row, Col, Container, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { useMediaQuery } from 'react-responsive';
 import './Register.css';
+import RegisterStatue from '../img/register_statue.jpeg';
 
 const Register = () => {
+  const id = localStorage.getItem('id');
   const navigate = useNavigate();
+  useEffect(() => {
+    if (id !== null) {
+      navigate('/profile');
+    } 
+  }, [id, navigate]);
+
+
+  const isMediumScreen = useMediaQuery({ minWidth: 768 });
+  const registerButton = isMediumScreen ? '' : 'text-center';
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -89,9 +101,11 @@ const Register = () => {
         "id": 12345,
         "value": "abc-def-ghi"
       }
-      const response = await axios.post('https://8yv8y.mocklab.io/json', data);
+      const response = await axios.post('https://8yv8y.mocklab.io/register', data);
     //   const response = await axios.post('OUR_API_LINK', formData);
       if (response.status === 201) {
+        localStorage.setItem('user', formData.username);
+        localStorage.setItem('id', 123); //change later on to be response.data.id
         updateFinishLoading('User successfully created! Logging in...', 'success');
         setTimeout(() => {
           toast.dismiss();
@@ -114,106 +128,127 @@ const Register = () => {
 
   return (
     <Container>
-      <h1>Register</h1>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="username">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            placeholder="Enter username"
-            className='fix-margin'
-            required
-          />
-        </Form.Group>
-
-        <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
+        {id === null &&
+        <Row>
+        <Col md={isMediumScreen ? 7 : 12}>
+        <h1>Register</h1>
+        <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="username">
+            <Form.Label>Username</Form.Label>
             <Form.Control
-                type="password"
-                name="password"
-                value={formData.password}
+                type="text"
+                name="username"
+                value={formData.username}
                 onChange={handleChange}
+                placeholder="Enter username"
+                className='fix-margin '
                 required
-                className="fix-margin"
-                isInvalid={formData.password && !isPasswordValid(formData.password)}
             />
-            <Form.Text className="text-muted" >
-                Your password must have at least one uppercase character, one number, and one non-alphanumeric character.
-            </Form.Text>
-            <Form.Control.Feedback type="invalid" className="fix-margin">
-                { "Please enter a valid password. Missing:" + missingValues(formData.password) }
-            </Form.Control.Feedback>
-        </Form.Group>
+            </Form.Group>
 
-        <Form.Group controlId="secretQuestion">
-          <Form.Label>Secret Question</Form.Label>
-          <Form.Control
-            as="select"
-            name="secretQuestion"
-            value={formData.secretQuestion}
-            onChange={handleChange}
-            onFocus={handleSelectFocus}
-            className='fix-margin'
-            required
-          >
-            <option value="">Select a secret question</option>
-            {secretQuestions.map((question, index) => (
-              <option key={index} value={question}>
-                {question}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
+            <Form.Group controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    className="fix-margin "
+                    isInvalid={formData.password && !isPasswordValid(formData.password)}
+                />
+                <Form.Text className="text-muted" >
+                    Your password must have at least one uppercase character, one number, and one non-alphanumeric character.
+                </Form.Text>
+                <Form.Control.Feedback type="invalid" className="fix-margin">
+                    { "Please enter a valid password. Missing:" + missingValues(formData.password) }
+                </Form.Control.Feedback>
+            </Form.Group>
 
-        <Form.Group controlId="secretAnswer">
-          <Form.Label>Answer to Secret Question</Form.Label>
-          <Form.Control
-            type="text"
-            name="secretAnswer"
-            value={formData.secretAnswer}
-            onChange={handleChange}
-            className='fix-margin'
-            required
-          />
-        </Form.Group>
+            <Form.Group controlId="secretQuestion">
+            <Form.Label>Secret Question</Form.Label>
+            <Form.Control
+                as="select"
+                name="secretQuestion"
+                value={formData.secretQuestion}
+                onChange={handleChange}
+                onFocus={handleSelectFocus}
+                className='fix-margin '
+                required
+            >
+                <option value="">Select a secret question</option>
+                {secretQuestions.map((question, index) => (
+                <option key={index} value={question}>
+                    {question}
+                </option>
+                ))}
+            </Form.Control>
+            </Form.Group>
 
-        <Form.Group controlId="aboutMe">
-          <Form.Label>About Me</Form.Label>
-          <Form.Control
-            as="textarea"
-            name="aboutMe"
-            value={formData.aboutMe}
-            onChange={handleChange}
-            className='fix-margin'
-            required
-          />
-        </Form.Group>
+            <Form.Group controlId="secretAnswer">
+            <Form.Label>Answer to Secret Question</Form.Label>
+            <Form.Control
+                type="text"
+                name="secretAnswer"
+                value={formData.secretAnswer}
+                onChange={handleChange}
+                className='fix-margin '
+                required
+            />
+            </Form.Group>
 
-        <Form.Group controlId="favoriteArtStyle">
-        <Form.Label className='fix-margin'>Favorite Art Style</Form.Label>
-          <Form.Control
-            as="select"
-            name="favoriteArtStyle"
-            value={formData.favoriteArtStyle}
-            onChange={handleChange}
-            onFocus={handleSelectFocus}
-          >
-            <option value="">Select your favorite art style</option>
-            {artStyles.map((style, index) => (
-              <option key={index} value={style}>
-                {style}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
+            <Form.Group controlId="aboutMe">
+            <Form.Label>About Me</Form.Label>
+            <Form.Control
+                as="textarea"
+                name="aboutMe"
+                value={formData.aboutMe}
+                onChange={handleChange}
+                className='fix-margin '
+                required
+            />
+            </Form.Group>
 
-        <Button variant="primary" type="submit" className="mt-2">
-          Register
-        </Button>
-      </Form>
+            <Form.Group controlId="favoriteArtStyle">
+            <Form.Label>Favorite Art Style</Form.Label>
+            <Form.Control
+                as="select"
+                name="favoriteArtStyle"
+                value={formData.favoriteArtStyle}
+                onChange={handleChange}
+                onFocus={handleSelectFocus}
+                className='fix-margin'
+                required
+            >
+                <option value="">Select your favorite art style</option>
+                {artStyles.map((style, index) => (
+                <option key={index} value={style}>
+                    {style}
+                </option>
+                ))}
+            </Form.Control>
+            </Form.Group>
+            
+            <div className={registerButton}>
+                <Button variant="primary" type="submit" className="mt-2">
+                Register
+                </Button>
+            </div>
+        </Form>
+      </Col>
+      {isMediumScreen && <Col md={1}></Col>}
+      {isMediumScreen && (
+          <Col md={4}>
+            <img 
+            src={RegisterStatue} 
+            alt="Michelangelo's David"
+            className="img-fluid mt-3"
+            />
+
+          </Col>
+        )}
+    </Row>
+    }
     </Container>
   );
 };

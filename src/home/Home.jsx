@@ -4,6 +4,7 @@ import { Container, Row, Col, Image } from 'react-bootstrap';
 import './HomePage.css';
 import { toast } from 'react-toastify';
 import { useMediaQuery } from 'react-responsive';
+import LogoHeader from '../img/logo512.png';
 
 
 const Home = () => {
@@ -37,7 +38,7 @@ const Home = () => {
         <Row className="text-center">
         <a href="/" style={{textDecoration:'none', color: 'inherit'}}>
           <Col className="d-flex justify-content-center align-items-center">
-              <Image src="logo512.png" alt="GalleryGrade Logo" className="logo" roundedCircle />
+              <Image src={LogoHeader} alt="GalleryGrade Logo" className="logo" roundedCircle />
               <h1 className="gallery-grade-text">GalleryGrade</h1>
           </Col>
           </a>
