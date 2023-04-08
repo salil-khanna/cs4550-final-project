@@ -28,13 +28,16 @@ const FormContent = () => {
     aboutMe: '',
     favoriteArtStyle: '',
   });
+  const [matchingPassword, setMatchingPassword] = useState('');
 
   useEffect(() => {
-    if (id === null) {
-      navigate('/login');
-    } else {
+    if (id !== null) {
+      console.log("fetching data")
       // Fetch user data from the API and update formData here
-      // You can use the useState hook to set the initial formData
+
+      // You can use the useState hook to set the initialFormData
+
+      // also update the matchingPassword to formData.password
     }
   }, [id, navigate]);
 
@@ -111,6 +114,10 @@ const FormContent = () => {
       toast.error("Invalid password...");
       return;
     }
+    if (formData.password !== matchingPassword) {
+      toast.error("Passwords do not match...");
+      return;
+  }
 
     if (toast.isActive(toastId.current)) {
         updateLoading();
@@ -165,6 +172,22 @@ const FormContent = () => {
                 </Form.Text>
                 <Form.Control.Feedback type="invalid" className="fix-margin">
                     { "Please enter a valid password. Missing:" + missingValues(formData.password) }
+                </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group controlId="confirmPassword">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    name="confirmPassword"
+                    value={matchingPassword}
+                    onChange={(e) => { setMatchingPassword(e.target.value) }}
+                    required
+                    className="fix-margin "
+                    isInvalid={matchingPassword && (formData.password !== matchingPassword)}
+                />
+                <Form.Control.Feedback type="invalid" className="fix-margin">
+                    Passwords do not match.
                 </Form.Control.Feedback>
             </Form.Group>
 

@@ -54,8 +54,6 @@ const Search = () => {
       const imageInfoResponse = await axios.get(
         `${base_url}/${item.image_id}/info.json`
       );
-      console.log(item)
-      console.log(imageInfoResponse.data)
 
       const { height, width } = imageInfoResponse.data;
       const scaledHeight = (height * 320) / width;

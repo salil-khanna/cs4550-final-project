@@ -5,6 +5,7 @@ import {Routes, Route} from "react-router";
 import Home from './home/Home';
 import Search from './search/Search';
 import Login from './login/Login';
+import ForgetPassword from './login/ForgetPassword';
 import Register from './register/Register';
 import SelfProfile from './profile/SelfProfile';
 import ProfileSlug from './profile/ProfileSlug';
@@ -23,6 +24,7 @@ function App() {
             <Route path="/home" element={<Home/>}/>
             <Route path="/search" element={<Search/>}/>
             <Route path="/login" element={<Login/>}/>
+            <Route path="/forget-password" element={<ForgetPassword/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/profile" element={<SelfProfile/>}/>
             <Route path="/profile/:id" element={<ProfileSlug/>}/>

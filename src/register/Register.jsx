@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Container, Form, Button } from 'react-bootstrap';
@@ -6,18 +6,15 @@ import { toast } from 'react-toastify';
 import { useMediaQuery } from 'react-responsive';
 import './Register.css';
 import RegisterStatue from '../img/register_statue.jpeg';
+import RedirectToProfile from '../utils/RedirectToProfile';
 
 const Register = () => {
   const id = localStorage.getItem('id');
   const navigate = useNavigate();
-  useEffect(() => {
-    if (id !== null) {
-      navigate('/profile');
-    } 
-  }, [id, navigate]);
 
 
   const isMediumScreen = useMediaQuery({ minWidth: 768 });
+  const isLargeScreen = useMediaQuery({ minWidth: 992 });
   const registerButton = isMediumScreen ? '' : 'text-center';
   const [formData, setFormData] = useState({
     username: '',
@@ -27,6 +24,8 @@ const Register = () => {
     aboutMe: '',
     favoriteArtStyle: '',
   });
+
+  const [matchingPassword, setMatchingPassword] = useState('');
 
   const secretQuestions = [
     'What was the name of your first pet?',
@@ -90,6 +89,10 @@ const Register = () => {
         toast.error("Invalid password...");
         return;
     }
+    if (formData.password !== matchingPassword) {
+        toast.error("Passwords do not match...");
+        return;
+    }
     if (toast.isActive(toastId.current)) {
         updateLoading();
     } else {
@@ -108,7 +111,10 @@ const Register = () => {
         localStorage.setItem('id', 123); //change later on to be response.data.id
         updateFinishLoading('User successfully created! Logging in...', 'success');
         setTimeout(() => {
-          toast.dismiss();
+          if (toast.isActive(toastId.current)) {
+            toast.dismiss();
+            toastId.current = null;
+          }
           navigate('/');
         }, 1000);
       } else {
@@ -128,6 +134,7 @@ const Register = () => {
 
   return (
     <Container>
+        <RedirectToProfile />
         {id === null &&
         <Row>
         <Col md={isMediumScreen ? 7 : 12}>
@@ -162,6 +169,22 @@ const Register = () => {
                 </Form.Text>
                 <Form.Control.Feedback type="invalid" className="fix-margin">
                     { "Please enter a valid password. Missing:" + missingValues(formData.password) }
+                </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group controlId="confirmPassword">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    name="confirmPassword"
+                    value={matchingPassword}
+                    onChange={(e) => { setMatchingPassword(e.target.value) }}
+                    required
+                    className="fix-margin "
+                    isInvalid={matchingPassword && (formData.password !== matchingPassword)}
+                />
+                <Form.Control.Feedback type="invalid" className="fix-margin">
+                    Passwords do not match.
                 </Form.Control.Feedback>
             </Form.Group>
 
@@ -236,13 +259,13 @@ const Register = () => {
             </div>
         </Form>
       </Col>
-      {isMediumScreen && <Col md={1}></Col>}
+      {isLargeScreen && <Col md={1}></Col>}
       {isMediumScreen && (
-          <Col md={4}>
+          <Col md={isLargeScreen ? 4 : 5}>
             <img 
             src={RegisterStatue} 
             alt="Michelangelo's David"
-            className="img-fluid mt-3"
+            className={`img-fluid ${isLargeScreen ? "mt-4" : "mt-5"}`}
             />
 
           </Col>

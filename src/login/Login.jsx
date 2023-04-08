@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
@@ -6,16 +6,11 @@ import { toast } from 'react-toastify';
 import { useMediaQuery } from 'react-responsive';
 import './Login.css';
 import LoginPainting from '../img/login_painting.jpeg';
+import RedirectToProfile from '../utils/RedirectToProfile';
 
 const Login = () => {
   const id = localStorage.getItem('id');
   const navigate = useNavigate();
-  useEffect(() => {
-    if (id !== null) {
-      navigate('/profile');
-    } 
-  }, [id, navigate]);
-
 
   const [formData, setFormData] = useState({
     username: '',
@@ -63,7 +58,7 @@ const Login = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        updateFinishLoading(error.response.data.message, 'warning');
+        updateFinishLoading(error.response.data.message, 'warning'); // username does not exist || password incorrect, display from backend
       } else {
         updateFinishLoading('Error with server, please wait and try again.', 'error');
       }
@@ -72,6 +67,7 @@ const Login = () => {
 
   return (
     <Container>
+      <RedirectToProfile />
       {id === null && 
       <Row>
         {isMediumScreen && (
@@ -122,11 +118,11 @@ const Login = () => {
           </Form>
         </Col>
         {!isMediumScreen && (
-          <Col xs={12} className="mt-4 text-center">
+          <Col xs={12} className="mt-4 text-center" style={{ height: '30%', maxWidth: 'none' }}>
           <img
             src={LoginPainting}
             alt="Mona Lisa"
-            style={{ maxHeight: '25%' }}
+            style={{ height: '45%', maxWidth: '45%' }}
           />
         </Col>
         )}
