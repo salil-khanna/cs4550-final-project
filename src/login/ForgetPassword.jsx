@@ -13,6 +13,7 @@ const ForgetPassword = () => {
 
     const isMediumScreen = useMediaQuery({ minWidth: 768 });
     const isLargeScreen = useMediaQuery({ minWidth: 992})
+    const centerButton = isMediumScreen ? '' : 'text-center';
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -211,9 +212,11 @@ const ForgetPassword = () => {
                   />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className="mt-2">
-                    Next
-                </Button>
+                <div className={centerButton}>
+                    <Button variant="primary" type="submit" className="mt-2">
+                        Next
+                    </Button>
+                </div>
               </Form>
               </>
               )}
@@ -257,9 +260,11 @@ const ForgetPassword = () => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className="mt-2">
-                    Reset!
-                </Button>
+                <div className={centerButton}>
+                    <Button variant="primary" type="submit" className="mt-2">
+                        Reset!
+                    </Button>
+                </div>
               </Form>
             </>
           )}
