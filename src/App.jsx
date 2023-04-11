@@ -27,7 +27,7 @@ function App() {
             <Route path="/forget-password" element={<ForgetPassword/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/profile" element={<SelfProfile/>}/>
-            <Route path="/profile/:id" element={<ProfileSlug/>}/>
+            <Route path="/profile/:user" element={<ProfileSlug/>}/>
         </Routes>
         <ToastContainer
           position="top-center"

@@ -1,18 +1,18 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
-import SelfProfile from './SelfProfile';
 import OtherProfile from './components/OtherProfile';
+import RedirectToProfile from '../utils/RedirectToProfile';
 
 const ProfileSlug = () => {
-  const { id } = useParams();
+  const { user } = useParams();
 
-  const ourId = localStorage.getItem('id');
-  const selfProfile = id === ourId;
+  const ourUser = localStorage.getItem('user');
+  const selfProfile = user === ourUser;
 
   return (
     <div>
       {selfProfile ? 
-        <SelfProfile />
+        <RedirectToProfile />
       : 
         <OtherProfile />
       }

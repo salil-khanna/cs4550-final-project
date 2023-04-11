@@ -20,7 +20,6 @@ const SelfProfile = () => {
       {id && (
         <Row>
           <YourProfile/>
-          <YourProfile/>
         </Row>
       )}
     </Container>
