@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Loading from 'react-loading';
+import { Spinner } from 'react-bootstrap';
 
 const ArtworkData = ({ artworkData }) => {
     const [loadedImages, setLoadedImages] = useState([]);
@@ -24,8 +24,8 @@ const ArtworkData = ({ artworkData }) => {
                 onLoad={() => handleImageLoad(index)}
                 style={{ display: !loadedImages.includes(index) && 'none' }}
               />
-              <div style={{ display: loadedImages.includes(index) ? 'none' : 'block'}}>
-                <Loading type="spin" color="#000000" />
+              <div style={{ display: loadedImages.includes(index) ? 'none' : 'block'}} className="justify-content-center align-items-center">
+                <Spinner animation="border" />
               </div>
               <p className="mt-2">{item.title}</p>
           </div>

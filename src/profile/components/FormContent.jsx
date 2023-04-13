@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { toast } from 'react-toastify';
@@ -33,28 +33,38 @@ const FormContent = () => {
   });
   const [matchingPassword, setMatchingPassword] = useState('');
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (id !== null) {
-      const apiLink = `http://localhost:8080/users/${username}/${id}`;
-      axios.get(apiLink)
-        .then((response) => {
-          setInitialData({
-            password: "",
-            secretQuestion: response.data.secretQuestion,
-            secretAnswer: "",
-            aboutMe: response.data.aboutMe,
-            favoriteArtStyle: response.data.favoriteArtStyle,
+        const apiLink = `http://localhost:8080/users/${username}/${id}`;
+        axios.get(apiLink)
+          .then((response) => {
+            setInitialData({
+              password: "",
+              secretQuestion: response.data.secretQuestion,
+              secretAnswer: "",
+              aboutMe: response.data.aboutMe,
+              favoriteArtStyle: response.data.favoriteArtStyle,
+            });
+            setFormData({
+              password: "",
+              secretQuestion: response.data.secretQuestion,
+              secretAnswer: "",
+              aboutMe: response.data.aboutMe,
+              favoriteArtStyle: response.data.favoriteArtStyle,
+            });
+            setMatchingPassword("");
+            setIsLoading(false);
+          }).catch((error) => {
+            toast.error('Error with server, redirecting to home page.');
+            setTimeout(() => {
+              navigate('/');
+            }, 1250);
           });
-          setFormData({
-            password: "",
-            secretQuestion: response.data.secretQuestion,
-            secretAnswer: "",
-            aboutMe: response.data.aboutMe,
-            favoriteArtStyle: response.data.favoriteArtStyle,
-          });
-          setMatchingPassword("");
-        })
-    }
+        }
+    
+    
   }, [id, navigate, username]);
 
   const secretQuestions = [
@@ -179,7 +189,11 @@ const FormContent = () => {
     };
   };
 
-  return (
+  return (isLoading ? (
+    <div className="d-flex justify-content-center align-items-center">
+      <Spinner animation="border" />
+    </div>
+  ) :(
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="username">
               <Form.Label>Username</Form.Label>
@@ -333,7 +347,7 @@ const FormContent = () => {
             </Row>
             </div>
           </Form>
-  );
+  ));
 };
 
 export default FormContent;
