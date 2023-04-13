@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Form, Button, Spinner } from 'react-bootstrap';
+import { Row, Col, Form, Button, Spinner, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { toast } from 'react-toastify';
@@ -189,6 +189,36 @@ const FormContent = () => {
     };
   };
 
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleDeleteProfile = async () => {
+    handleCloseModal();
+
+    try {
+      const response = await axios.delete('http://localhost:8080/users/', {
+        data : {
+          username: username,
+          id: id,
+        }});
+      if (response.status === 200) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('id');
+        toast.success('User Successfully Deleted!');
+
+        setTimeout(() => {
+          navigate('/');
+        }, 1250);
+      } else {
+        toast.error('Error deleting user, please try again.');
+      }
+    } catch (error) {
+      toast.error('Error with server, please try again.');
+    }
+  };
+
   return (isLoading ? (
     <div className="d-flex justify-content-center align-items-center">
       <Spinner animation="border" />
@@ -329,6 +359,25 @@ const FormContent = () => {
                 ))}
             </Form.Control>
             </Form.Group>
+
+            <>
+              <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Confirm Deletion</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  Are you sure you would like to delete your profile? This action cannot be undone.
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleCloseModal}>
+                    Cancel
+                  </Button>
+                  <Button variant="danger" onClick={handleDeleteProfile}>
+                    Delete Profile
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </>
             
             <div className={saveButton}>
             <Row>
@@ -339,7 +388,7 @@ const FormContent = () => {
                   </Button>
                 </Col>
                 <Col md="auto">
-                  <Button variant="danger" className="mt-2">
+                  <Button variant="danger" className="mt-2" onClick={handleShowModal}>
                     Delete Profile
                   </Button>
                 </Col>
