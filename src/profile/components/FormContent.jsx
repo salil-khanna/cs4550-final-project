@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { toast } from 'react-toastify';
@@ -10,8 +10,11 @@ const FormContent = () => {
   const username = localStorage.getItem('user');
   const navigate = useNavigate();
   
+
   const isMediumScreen = useMediaQuery({ minWidth: 768 });
   const saveButton = isMediumScreen ? '' : 'text-center';
+  const [passwordHidden, setPasswordHidden] = useState(true);
+  const [secretAnswerHidden, setSecretAnswerHidden] = useState(true);
   const [initialData, setInitialData] = useState({
     password: '',
     secretQuestion: '',
@@ -32,14 +35,27 @@ const FormContent = () => {
 
   useEffect(() => {
     if (id !== null) {
-      console.log("fetching data")
-      // Fetch user data from the API and update formData here
-
-      // You can use the useState hook to set the initialFormData
-
-      // also update the matchingPassword to formData.password
+      const apiLink = `http://localhost:8080/users/${username}/${id}`;
+      axios.get(apiLink)
+        .then((response) => {
+          setInitialData({
+            password: "",
+            secretQuestion: response.data.secretQuestion,
+            secretAnswer: "",
+            aboutMe: response.data.aboutMe,
+            favoriteArtStyle: response.data.favoriteArtStyle,
+          });
+          setFormData({
+            password: "",
+            secretQuestion: response.data.secretQuestion,
+            secretAnswer: "",
+            aboutMe: response.data.aboutMe,
+            favoriteArtStyle: response.data.favoriteArtStyle,
+          });
+          setMatchingPassword("");
+        })
     }
-  }, [id, navigate]);
+  }, [id, navigate, username]);
 
   const secretQuestions = [
     'What was the name of your first pet?',
@@ -90,6 +106,11 @@ const FormContent = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleChangeAndRevealSecretAnswer = (event) => {
+    handleChange(event); // Call the handleChange function
+    setSecretAnswerHidden(false); // Call the setSecretAnswerHidden function
+  };
+
   const sameData = (initialData, formData) => {
     return initialData.password === formData.password &&
       initialData.secretQuestion === formData.secretQuestion &&
@@ -110,14 +131,14 @@ const FormContent = () => {
       return;
     }
 
-    if (!isPasswordValid(formData.password)) {
+    if (!isPasswordValid(formData.password) && formData.password !== '') {
       toast.error("Invalid password...");
       return;
     }
     if (formData.password !== matchingPassword) {
       toast.error("Passwords do not match...");
       return;
-  }
+    }
 
     if (toast.isActive(toastId.current)) {
         updateLoading();
@@ -126,20 +147,35 @@ const FormContent = () => {
     }
 
     try {
-      const data = {
-        "id": 12345,
-        "value": "abc-def-ghi"
-      }
-      const response = await axios.put('https://8yv8y.mocklab.io/saveProfile', data);
-    //   const response = await axios.post('OUR_API_LINK', formData);
+      const baseApiLink = 'http://localhost:8080/users/update-user-info';
+      const response = await axios.put(baseApiLink, {
+        username: username,
+        id: id,
+        password: formData.password,
+        secretQuestion: formData.secretQuestion,
+        secretAnswer: formData.secretAnswer,
+        aboutMe: formData.aboutMe,
+        favoriteArtStyle: formData.favoriteArtStyle,
+      });
+      
       if (response.status === 201) {
         updateFinishLoading('Profile updates saved!', 'success');
+        setInitialData({
+          password: formData.password,
+          secretQuestion: formData.secretQuestion,
+          secretAnswer: formData.secretAnswer,
+          aboutMe: formData.aboutMe,
+          favoriteArtStyle: formData.favoriteArtStyle,
+      });
       } else {
         updateFinishLoading('Error with my coding skills woops. Saving not possible :(', 'error');
       }
-
     } catch (error) {
-        updateFinishLoading('Error with server, please wait and try again.', 'error');
+      if (error.response && error.response.status === 401) {
+        updateFinishLoading(error.response.data.error, 'warning'); 
+      } else {
+          updateFinishLoading('Error with server, please wait and try again.', 'error');
+      }
     };
   };
 
@@ -158,15 +194,24 @@ const FormContent = () => {
 
             <Form.Group controlId="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control
+                {passwordHidden ? 
+                  <Form.Control
+                  type="password"
+                  name="password"
+                  value="BLAHBLAHBLAHBLAHBLAHBLAH"
+                  onChange={() => { setPasswordHidden(false) }}
+                  className="fix-margin "
+                  isInvalid={formData.password && !isPasswordValid(formData.password)}
+              /> 
+                : <Form.Control
                     type="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    required
                     className="fix-margin "
+                    required
                     isInvalid={formData.password && !isPasswordValid(formData.password)}
-                />
+                /> }
                 <Form.Text className="text-muted" >
                     Your password must have at least one uppercase character, one number, and one non-alphanumeric character.
                 </Form.Text>
@@ -177,7 +222,15 @@ const FormContent = () => {
 
             <Form.Group controlId="confirmPassword">
                 <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
+                {passwordHidden ? <Form.Control
+                    type="password"
+                    name="confirmPassword"
+                    value="BLAHBLAHBLAHBLAHBLAHBLAH"
+                    onChange={() => { setPasswordHidden(false) }}
+                    className="fix-margin "
+                    isInvalid={matchingPassword && (formData.password !== matchingPassword)}
+                />
+                : <Form.Control
                     type="password"
                     name="confirmPassword"
                     value={matchingPassword}
@@ -185,7 +238,7 @@ const FormContent = () => {
                     required
                     className="fix-margin "
                     isInvalid={matchingPassword && (formData.password !== matchingPassword)}
-                />
+                /> }
                 <Form.Control.Feedback type="invalid" className="fix-margin">
                     Passwords do not match.
                 </Form.Control.Feedback>
@@ -197,7 +250,7 @@ const FormContent = () => {
                 as="select"
                 name="secretQuestion"
                 value={formData.secretQuestion}
-                onChange={handleChange}
+                onChange={handleChangeAndRevealSecretAnswer}
                 onFocus={handleSelectFocus}
                 className='fix-margin '
                 required
@@ -213,6 +266,14 @@ const FormContent = () => {
 
             <Form.Group controlId="secretAnswer">
             <Form.Label>Answer to Secret Question</Form.Label>
+            {secretAnswerHidden ? <Form.Control
+                    type="password"
+                    name="secretAnswer"
+                    value="BLAHBLAHBLAHBLAHBLAHBLAH"
+                    onChange={() => { setSecretAnswerHidden(false) }}
+                    className="fix-margin "
+                />
+                :
             <Form.Control
                 type="text"
                 name="secretAnswer"
@@ -220,7 +281,7 @@ const FormContent = () => {
                 onChange={handleChange}
                 className='fix-margin '
                 required
-            />
+            /> }
             </Form.Group>
 
             <Form.Group controlId="aboutMe">
@@ -256,9 +317,20 @@ const FormContent = () => {
             </Form.Group>
             
             <div className={saveButton}>
-                <Button variant="primary" type="submit" className="mt-2">
-                Save
-                </Button>
+            <Row>
+              <Col className="d-md-flex justify-content-md-between text-center">
+                <Col md="auto">
+                  <Button variant="primary" className="mt-2" type="submit">
+                    Save
+                  </Button>
+                </Col>
+                <Col md="auto">
+                  <Button variant="danger" className="mt-2">
+                    Delete Profile
+                  </Button>
+                </Col>
+              </Col>
+            </Row>
             </div>
           </Form>
   );

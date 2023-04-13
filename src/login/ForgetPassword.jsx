@@ -23,8 +23,10 @@ const ForgetPassword = () => {
   });
 
   const [updatePasswordFormData, setUpdatePasswordFormData] = useState({
+    username: '',
+    secretQuestion: '',
+    secretAnswer: '',
     id: '',
-    updatePasswordToken: '',
     password: '',
   });
   const [matchingPassword, setMatchingPassword] = useState('');
@@ -81,21 +83,17 @@ const ForgetPassword = () => {
     }
 
     try {
-        const data = {
-          "id": 12345,
-          "value": "abc-def-ghi"
-        }
-        const response = await axios.post('https://8yv8y.mocklab.io/register', data);
-      //   const response = await axios.post('OUR_API_LINK', formData);
-        if (response.status === 201) {
+        const apiLink = "http://localhost:8080/users/secret-question";
+        const response = await axios.post(apiLink, formData);
+        if (response.status === 200) {
           updateFinishLoading('Answer to secret question was correct! Update your password.', 'success');
           setStep(2); 
         
           setUpdatePasswordFormData({
-            ...updatePasswordFormData,
-            id: 123, //change later on to be response.data.id
-            updatePasswordToken: 'abc-def-ghi', //change later on to be response.data.passwordToken
-            });
+              username: formData.username,
+              id: response.data.id,
+              password: '',
+          });
 
         } else {
           updateFinishLoading('Error with my coding skills woops. Registering not possible :(', 'error');
@@ -103,7 +101,7 @@ const ForgetPassword = () => {
   
       } catch (error) {
         if (error.response && error.response.status === 401) {
-            updateFinishLoading(error.response.data.message, 'warning'); // username does not exist || secret question and answer do not match,display from backend
+            updateFinishLoading(error.response.data.error, 'warning'); // username does not exist || secret question and answer do not match,display from backend
         } else {
             updateFinishLoading('Error with server, please wait and try again.', 'error');
         }
@@ -130,16 +128,12 @@ const ForgetPassword = () => {
     }
 
     try {
-        const data = {
-          "id": 12345,
-          "value": "abc-def-ghi"
-        }
-        const response = await axios.post('https://8yv8y.mocklab.io/register', data);
-      //   const response = await axios.put('OUR_API_LINK', updatePasswordFormData);
+        const apiLink = "http://localhost:8080/users/reset-password";
+        const response = await axios.put(apiLink, updatePasswordFormData);
         if (response.status === 201) {
           updateFinishLoading('Password successfully updated! Logging in...', 'success');
           localStorage.setItem('user', formData.username);
-          localStorage.setItem('id', 123); //change later on to be response.data.id
+          localStorage.setItem('id', response.data.id); //change later on to be response.data.id
 
           setTimeout(() => {
             if (toast.isActive(toastId.current)) {
@@ -153,7 +147,11 @@ const ForgetPassword = () => {
         }
   
       } catch (error) {
-        updateFinishLoading('Error with server, please wait and try again.', 'error');
+        if (error.response && error.response.status === 401) {
+            updateFinishLoading(error.response.data.error, 'warning'); 
+        } else {
+            updateFinishLoading('Error with server, please wait and try again.', 'error');
+        }
       }
   };
 

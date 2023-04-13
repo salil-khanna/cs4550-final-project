@@ -81,7 +81,7 @@ const Register = () => {
   const toastId = React.useRef(null);
   const notify = () => toastId.current = toast.loading("Please wait...");
   const updateLoading = () => toast.update(toastId.current);
-  const updateFinishLoading = (text, messageType) => toast.update(toastId.current, {render: text, autoClose: 1250, type: messageType, isLoading: false});
+  const updateFinishLoading = (text, messageType) => toast.update(toastId.current, {render: text, autoClose: 1350, type: messageType, isLoading: false});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,33 +100,28 @@ const Register = () => {
     }
 
     try {
-      const data = {
-        "id": 12345,
-        "value": "abc-def-ghi"
-      }
-      const response = await axios.post('https://8yv8y.mocklab.io/register', data);
-    //   const response = await axios.post('OUR_API_LINK', formData);
-      if (response.status === 201) {
-        localStorage.setItem('user', formData.username);
-        localStorage.setItem('id', 123); //change later on to be response.data.id
-        updateFinishLoading('User successfully created! Logging in...', 'success');
-        setTimeout(() => {
-          if (toast.isActive(toastId.current)) {
-            toast.dismiss();
-            toastId.current = null;
-          }
-          navigate('/');
-        }, 1000);
-      } else {
-        updateFinishLoading('Error with my coding skills woops. Registering not possible :(', 'error');
-      }
-
+        const apiLink = "http://localhost:8080/users/register";
+        const response = await axios.post(apiLink, formData);
+        if (response.status === 201) {
+            localStorage.setItem('user', formData.username);
+            localStorage.setItem('id', response.data.id); //change later on to be response.data.id
+            updateFinishLoading('User successfully created! Logging in...', 'success');
+            setTimeout(() => {
+            if (toast.isActive(toastId.current)) {
+                toast.dismiss();
+                toastId.current = null;
+            }
+            navigate('/');
+            }, 1000);
+        } else {
+            updateFinishLoading('Error with my coding skills woops. Registering not possible :(', 'error');
+        }
     } catch (error) {
         if (!error.response) {
             updateFinishLoading('Error with server, please wait and try again.', 'error');
         } else if (error.response.status === 409) {
-            updateFinishLoading('User already exists, please login.', 'warning');
-        } else {
+            updateFinishLoading('User already exists, please login or try different username.', 'warning');
+        } else {    
             updateFinishLoading('Error with server, please wait and try again.', 'error');
         }
     }

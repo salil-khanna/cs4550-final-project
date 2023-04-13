@@ -38,16 +38,11 @@ const Login = () => {
         notify();
     }
     try {
-      const data = {
-        "id": 12345,
-        "value": "abc-def-ghi"
-      }
-      const response = await axios.post('https://8yv8y.mocklab.io/login', data);
-      // const response = await axios.post('myapi.onrender.com/api/users', formData);
-
+      const apiLink = "http://localhost:8080/users/login";
+      const response = await axios.post(apiLink, formData);
       if (response.status === 200) {
         localStorage.setItem('user', formData.username);
-        localStorage.setItem('id', 123); //change later on to be response.data.id
+        localStorage.setItem('id', response.data.id);
         updateFinishLoading(`Welcome ${formData.username}!`, "success");
 
         setTimeout(() => {
@@ -58,7 +53,7 @@ const Login = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        updateFinishLoading(error.response.data.message, 'warning'); // username does not exist || password incorrect, display from backend
+        updateFinishLoading(error.response.data.error, 'warning');
       } else {
         updateFinishLoading('Error with server, please wait and try again.', 'error');
       }
