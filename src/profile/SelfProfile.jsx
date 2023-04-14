@@ -1,18 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import YourProfile from './components/YourProfile';
 import { Container, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import RedirectToLogin from '../utils/RedirectToLogin';
+import OtherUsersAndArtContent from './components/OtherUsersAndArtContent';
 
 const SelfProfile = () => {
   const id = localStorage.getItem('id');
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (id !== null) {
-      // Fetch user data from the API and update formData here
-      // You can use the useState hook to set the initial formData
-    }
-  }, [id, navigate]);
 
   return (
     <Container>
@@ -20,6 +13,7 @@ const SelfProfile = () => {
       {id && (
         <Row>
           <YourProfile/>
+          <OtherUsersAndArtContent />
         </Row>
       )}
     </Container>

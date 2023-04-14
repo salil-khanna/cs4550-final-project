@@ -11,7 +11,10 @@ const YourProfile = () => {
   return (
     <Col md={isMediumScreen ? 6 : 12}>
         {isMediumScreen ? (
-          <FormContent />
+          <>
+            <h4 className={styles.removeMargin}>Your Profile</h4>
+            <FormContent />
+          </>
         ) : (
           <Dropdown>
             <Dropdown.Toggle variant="secondary" id="dropdown-basic" className={styles["horizontal-dropdown-menu"]} >

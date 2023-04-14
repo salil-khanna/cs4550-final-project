@@ -57,7 +57,13 @@ const FormContent = () => {
             setMatchingPassword("");
             setIsLoading(false);
           }).catch((error) => {
-            toast.error('Error with server, redirecting to home page.');
+            if (error.response && error.response.status === 404) {
+              toast.error(error.response.data.error);
+              localStorage.removeItem('id');
+              localStorage.removeItem('user');
+            } else {
+              toast.error('Error with server, redirecting to home page.');
+            }
             setTimeout(() => {
               navigate('/');
             }, 1250);
@@ -181,8 +187,10 @@ const FormContent = () => {
         updateFinishLoading('Error with my coding skills woops. Saving not possible :(', 'error');
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
+      if (error.response && error.response.status === 404) {
         updateFinishLoading(error.response.data.error, 'warning'); 
+        localStorage.removeItem('id');
+        localStorage.removeItem('user');
       } else {
           updateFinishLoading('Error with server, please wait and try again.', 'error');
       }

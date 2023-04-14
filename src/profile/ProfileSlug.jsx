@@ -14,7 +14,7 @@ const ProfileSlug = () => {
       {selfProfile ? 
         <RedirectToProfile />
       : 
-        <OtherProfile />
+        <OtherProfile username={user} />
       }
     </div>
   )

@@ -11,3 +11,7 @@
   .horizontal-dropdown-menu .dropdown-item {
     white-space: nowrap;
   }
+
+  .removeMargin {
+    margin-bottom: 0;
+  }

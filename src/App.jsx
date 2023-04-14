@@ -9,7 +9,8 @@ import ForgetPassword from './login/ForgetPassword';
 import Register from './register/Register';
 import SelfProfile from './profile/SelfProfile';
 import ProfileSlug from './profile/ProfileSlug';
-import PageNotFound from './page-not-found/PageNotFound';
+import Bookmarks from './bookmarks/Bookmarks';
+import Reviews from './reviews/Reviews';
 import { ToastContainer } from 'react-toastify';
 import Header from './header/Header';
 
@@ -19,7 +20,7 @@ function App() {
     <div className="container">
         <Header />
         <Routes>
-            <Route path="/*" element={<PageNotFound/>}/>
+            <Route path="/*" element={<Home/>}/>
             <Route path="/" element={<Home/>}/>
             <Route path="/home" element={<Home/>}/>
             <Route path="/search" element={<Search/>}/>
@@ -28,6 +29,8 @@ function App() {
             <Route path="/register" element={<Register/>}/>
             <Route path="/profile" element={<SelfProfile/>}/>
             <Route path="/profile/:user" element={<ProfileSlug/>}/>
+            <Route path="/bookmarks" element={<Bookmarks/>}/>
+            <Route path="/reviews/:user" element={<Reviews/>}/>
         </Routes>
         <ToastContainer
           position="top-center"
