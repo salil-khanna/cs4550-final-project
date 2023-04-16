@@ -13,6 +13,7 @@ import Bookmarks from './bookmarks/Bookmarks';
 import Reviews from './reviews/Reviews';
 import { ToastContainer } from 'react-toastify';
 import Header from './header/Header';
+import PageNotFound from './page-not-found/PageNotFound';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
     <div className="container">
         <Header />
         <Routes>
-            <Route path="/*" element={<Home/>}/>
+            <Route path="/*" element={<PageNotFound/>}/>
             <Route path="/" element={<Home/>}/>
             <Route path="/home" element={<Home/>}/>
             <Route path="/search" element={<Search/>}/>

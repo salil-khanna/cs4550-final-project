@@ -43,21 +43,33 @@ const OtherUsersDisplay = () => {
     );
   }
 
-  const cardTable = (
+  const cardTable = 
+  (
     <div className="scrollable-container">
-      <Table className="card-table">
-        <tbody>
-          <tr>
-            {users.map((user) => (
-              <td key={user.username} className="border-0">
-                <UserCard user={user} />
-              </td>
-            ))}
-          </tr>
-        </tbody>
-      </Table>
+      <div className="d-flex">
+        {users.map((user) => (
+          <div key={user.username} className="card-container">
+            <UserCard user={user} />
+          </div>
+        ))}
+      </div>
     </div>
   );
+  // (
+  //   <div className="scrollable-container">
+  //     <Table className="card-table">
+  //       <tbody>
+  //         <tr>
+  //           {users.map((user) => (
+  //             <td key={user.username} className="border-0">
+  //               <UserCard user={user} />
+  //             </td>
+  //           ))}
+  //         </tr>
+  //       </tbody>
+  //     </Table>
+  //   </div>
+  // );
 
   return (
     <Container>

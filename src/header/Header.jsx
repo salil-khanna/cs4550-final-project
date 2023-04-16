@@ -25,7 +25,7 @@ const Header = () => {
   const displayRegister = pageName !== "register" && !loggedIn;
 
   const buttonMd = displayHeader ? 6 : 12;
-  const buttonJustify = displayHeader ? "justify-content-md-end" : "justify-content-sm-end";
+  const buttonJustify = displayHeader ? "justify-content-md-end" : "justify-content-sm-end mt-2";
 
   return (
     <Container fluid className="header">

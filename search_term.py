@@ -19,5 +19,5 @@ def search_and_open_artworks(search_term):
             webbrowser.open(image_url)
 
 if __name__ == '__main__':
-    search_term = input("Enter a search term: ")
-    search_and_open_artworks(search_term)
+    print(pow(3, -1, 352))
+
