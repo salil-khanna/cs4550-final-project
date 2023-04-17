@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Form, Spinner, Dropdown } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import '../../login/Login.css'
+import OtherUsersDisplay from './OtherUsers';
+import { useMediaQuery } from 'react-responsive';
+import styles from './YourProfile.module.css'
 
 
 
@@ -16,6 +19,7 @@ const OtherProfile = ({ username }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const isMediumScreen = useMediaQuery({ minWidth: 992 });
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -90,7 +94,28 @@ const OtherProfile = ({ username }) => {
             </Form.Group>
           </Form>
         </Col>
+
+        {isMediumScreen && <Col xs={12} lg={6} className="text-center mt-2">
+          <OtherUsersDisplay remove={username}/>
+        </Col> }
+
       </Row>
+      
+      {!isMediumScreen &&
+      
+      <Dropdown>
+      <Dropdown.Toggle variant="secondary" id="dropdown-basic" className={`${styles["horizontal-dropdown-menu"]} mt-2`} >
+        Other Profiles
+      </Dropdown.Toggle>
+      <Dropdown.Menu className={styles["horizontal-dropdown-menu"]}>
+        <Container>
+        <OtherUsersDisplay remove={username}/>
+        </Container>
+      </Dropdown.Menu>
+    </Dropdown>
+    
+    }
+
     </Container>
   );
 };

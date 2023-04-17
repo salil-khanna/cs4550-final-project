@@ -32,6 +32,7 @@ function App() {
             <Route path="/profile/:user" element={<ProfileSlug/>}/>
             <Route path="/bookmarks" element={<Bookmarks/>}/>
             <Route path="/reviews/:user" element={<Reviews/>}/>
+            <Route path="/art/:" element={<Reviews/>}/>
         </Routes>
         <ToastContainer
           position="top-center"

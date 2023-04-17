@@ -1,24 +1,24 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
-import './RightSide.css';
+import './DisplayThree.css';
 
-const UserCard = ({ user }) => {
+const UserCard = ({ bit }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/profile/${user.username}`);
+    navigate(`/profile/${bit.username}`);
   };
 
   return (
     <Card className="user-card" onClick={handleClick}>
       <Card.Body>
-        <Card.Title>{user.username}</Card.Title>
+        <Card.Title>{bit.username}</Card.Title>
         <Card.Text>
-          <strong>About:</strong> {user.aboutMe}
+          <strong>About:</strong> {bit.aboutMe}
         </Card.Text>
         <Card.Text>
-          <strong>Favorite Art Style:</strong> {user.favoriteArtStyle}
+          <strong>Favorite Art Style:</strong> {bit.favoriteArtStyle}
         </Card.Text>
       </Card.Body>
     </Card>

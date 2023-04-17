@@ -1,0 +1,39 @@
+.card-table {
+    width: 100%;
+    white-space: nowrap;
+  }
+  
+  .card-table td {
+    display: inline-block;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  
+  .scrollable-col {
+    overflow-x: auto;
+    max-height: 100%;
+  }
+  
+  .user-card {
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .user-card:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .scrollable-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
+  
+  .card-container {
+    display: inline-block;
+    width: calc(100% / 3);
+    min-width: 280px; 
+    margin-right: 10px;
+  }
+  
