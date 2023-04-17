@@ -85,6 +85,11 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.username.length > 20) {
+        toast.error("Username must be less than 20 characters.");
+        return;
+    }
+    
     if (!isPasswordValid(formData.password)) {
         toast.error("Invalid password...");
         return;
@@ -136,16 +141,20 @@ const Register = () => {
         <h1>Register</h1>
         <Form onSubmit={handleSubmit}>
             <Form.Group controlId="username">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                placeholder="Enter username"
-                className='fix-margin '
-                required
-            />
+                <Form.Label>Username </Form.Label>
+                <Form.Control
+                    type="text"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="Enter username"
+                    className='fix-margin '
+                    required
+                    isInvalid={formData.username && formData.username.length > 20}
+                />
+                <Form.Control.Feedback type="invalid" className="fix-margin">
+                    Username must be less than 20 characters.
+                </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="password">
