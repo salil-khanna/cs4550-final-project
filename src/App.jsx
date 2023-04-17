@@ -14,6 +14,7 @@ import Reviews from './reviews/Reviews';
 import { ToastContainer } from 'react-toastify';
 import Header from './header/Header';
 import PageNotFound from './page-not-found/PageNotFound';
+import Art from './artwork/Art';
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
             <Route path="/profile/:user" element={<ProfileSlug/>}/>
             <Route path="/bookmarks" element={<Bookmarks/>}/>
             <Route path="/reviews/:user" element={<Reviews/>}/>
-            <Route path="/art/:" element={<Reviews/>}/>
+            <Route path="/art/:id" element={<Art/>}/>
         </Routes>
         <ToastContainer
           position="top-center"
