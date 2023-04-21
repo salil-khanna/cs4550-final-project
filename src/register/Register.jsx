@@ -9,7 +9,7 @@ import RegisterStatue from '../img/register_statue.jpeg';
 import RedirectToProfile from '../utils/RedirectToProfile';
 
 const Register = () => {
-  const id = localStorage.getItem('id');
+  const user_id = localStorage.getItem('user_id');
   const navigate = useNavigate();
 
 
@@ -109,7 +109,7 @@ const Register = () => {
         const response = await axios.post(apiLink, formData);
         if (response.status === 201) {
             localStorage.setItem('user', formData.username);
-            localStorage.setItem('id', response.data.id); //change later on to be response.data.id
+            localStorage.setItem('user_id', response.data.user_id); 
             updateFinishLoading('User successfully created! Logging in...', 'success');
             setTimeout(() => {
             if (toast.isActive(toastId.current)) {
@@ -135,7 +135,7 @@ const Register = () => {
   return (
     <Container>
         <RedirectToProfile />
-        {id === null &&
+        {user_id === null &&
         <Row>
         <Col md={isMediumScreen ? 7 : 12}>
         <h1>Register</h1>

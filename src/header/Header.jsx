@@ -52,7 +52,7 @@ const Header = () => {
           </Button>}
           {loggedIn && <Button size="sm" className="register-btn" onClick={() => {
             localStorage.removeItem('user');
-            localStorage.removeItem('id');
+            localStorage.removeItem('user_id');
             navigate('/')
             toast.success("Logged out successfully!", { duration: 2000});
             }}>

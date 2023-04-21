@@ -8,7 +8,7 @@ import { useMediaQuery } from 'react-responsive';
 import ForgetPasswordWave from '../img/newPassword_wave.jpeg';
 
 const ForgetPassword = () => {
-  const id = localStorage.getItem('id');
+  const user_id = localStorage.getItem('user_id');
   const navigate = useNavigate();
 
     const isMediumScreen = useMediaQuery({ minWidth: 768 });
@@ -26,7 +26,7 @@ const ForgetPassword = () => {
     username: '',
     secretQuestion: '',
     secretAnswer: '',
-    id: '',
+    user_id: '',
     password: '',
   });
   const [matchingPassword, setMatchingPassword] = useState('');
@@ -91,7 +91,7 @@ const ForgetPassword = () => {
         
           setUpdatePasswordFormData({
               username: formData.username,
-              id: response.data.id,
+              user_id: response.data.user_id,
               password: '',
           });
 
@@ -133,7 +133,7 @@ const ForgetPassword = () => {
         if (response.status === 201) {
           updateFinishLoading('Password successfully updated! Logging in...', 'success');
           localStorage.setItem('user', formData.username);
-          localStorage.setItem('id', response.data.id); //change later on to be response.data.id
+          localStorage.setItem('user_id', response.data.user_id);
 
           setTimeout(() => {
             if (toast.isActive(toastId.current)) {
@@ -162,7 +162,7 @@ const ForgetPassword = () => {
           {step === 1 ? (
             <>
               <RedirectToProfile />
-              {id === null && (
+              {user_id === null && (
                 <>
               <h1>Forgot Password</h1>
               <Form onSubmit={handleSecretQuestionSubmit}>

@@ -5,12 +5,12 @@ import RedirectToLogin from '../utils/RedirectToLogin';
 import OtherUsersAndArtContent from './components/OtherUsersAndArtContent';
 
 const SelfProfile = () => {
-  const id = localStorage.getItem('id');
+  const user_id = localStorage.getItem('user_id');
 
   return (
     <Container>
       <RedirectToLogin />
-      {id && (
+      {user_id && (
         <Row>
           <YourProfile/>
           <OtherUsersAndArtContent />

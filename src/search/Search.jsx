@@ -14,6 +14,14 @@ const Search = () => {
   const [artworkData, setArtworkData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const artworkDataStored = JSON.parse(localStorage.getItem('artworkData'));
+    if (artworkDataStored) {
+      setArtworkData(artworkDataStored);
+      localStorage.removeItem('artworkData');
+    }
+  }, []);
+
   const isMobile = useMediaQuery({ query: '(max-width: 575px)' });
   const buttonMobileClass = isMobile ? 'text-center mt-2' : '';
   const inputRef = useRef(null);
@@ -37,6 +45,7 @@ const Search = () => {
     const imageData = result.data
       .filter((item) => item.image_id !== null)
       .map((item) => ({
+        id: item.id,
         image_id: item.image_id,
         title: item.title,
       }));
@@ -46,7 +55,7 @@ const Search = () => {
     let validImages = [];
 
     for (const item of imageData) {
-      if (validImages.length >= 6) {
+      if (validImages.length >= 8) {
         break;
       }
 

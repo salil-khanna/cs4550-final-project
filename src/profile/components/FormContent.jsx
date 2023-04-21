@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const FormContent = () => {
-  const id = localStorage.getItem('id');
+  const user_id = localStorage.getItem('user_id');
   const username = localStorage.getItem('user');
   const navigate = useNavigate();
   
@@ -36,8 +36,8 @@ const FormContent = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (id !== null) {
-        const apiLink = `http://localhost:8080/users/${username}/${id}`;
+    if (user_id !== null) {
+        const apiLink = `http://localhost:8080/users/${username}/${user_id}`;
         axios.get(apiLink)
           .then((response) => {
             setInitialData({
@@ -59,7 +59,7 @@ const FormContent = () => {
           }).catch((error) => {
             if (error.response && error.response.status === 404) {
               toast.error(error.response.data.error);
-              localStorage.removeItem('id');
+              localStorage.removeItem('user_id');
               localStorage.removeItem('user');
             } else {
               toast.error('Error with server, redirecting to home page.');
@@ -71,7 +71,7 @@ const FormContent = () => {
         }
     
     
-  }, [id, navigate, username]);
+  }, [user_id, navigate, username]);
 
   const secretQuestions = [
     'What was the name of your first pet?',
@@ -166,7 +166,7 @@ const FormContent = () => {
       const baseApiLink = 'http://localhost:8080/users/update-user-info';
       const response = await axios.put(baseApiLink, {
         username: username,
-        id: id,
+        user_id: user_id,
         password: formData.password,
         secretQuestion: formData.secretQuestion,
         secretAnswer: formData.secretAnswer,
@@ -189,7 +189,7 @@ const FormContent = () => {
     } catch (error) {
       if (error.response && error.response.status === 404) {
         updateFinishLoading(error.response.data.error, 'warning'); 
-        localStorage.removeItem('id');
+        localStorage.removeItem('user_id');
         localStorage.removeItem('user');
       } else {
           updateFinishLoading('Error with server, please wait and try again.', 'error');
@@ -209,7 +209,7 @@ const FormContent = () => {
       const response = await axios.delete('http://localhost:8080/users/', {
         data : {
           username: username,
-          id: id,
+          user_id: user_id,
         }});
       if (response.status === 200) {
         localStorage.removeItem('user');

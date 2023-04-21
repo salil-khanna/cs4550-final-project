@@ -9,7 +9,7 @@ import LoginPainting from '../img/login_painting.jpeg';
 import RedirectToProfile from '../utils/RedirectToProfile';
 
 const Login = () => {
-  const id = localStorage.getItem('id');
+  const user_id = localStorage.getItem('user_id');
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -42,7 +42,7 @@ const Login = () => {
       const response = await axios.post(apiLink, formData);
       if (response.status === 200) {
         localStorage.setItem('user', formData.username);
-        localStorage.setItem('id', response.data.id);
+        localStorage.setItem('user_id', response.data.user_id);
         updateFinishLoading(`Welcome ${formData.username}!`, "success");
 
         setTimeout(() => {
@@ -63,7 +63,7 @@ const Login = () => {
   return (
     <Container>
       <RedirectToProfile />
-      {id === null && 
+      {user_id === null && 
       <Row>
         {isMediumScreen && (
           <Col md={4}>

@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
-import { Spinner } from 'react-bootstrap';
+import React, { useState } from 'react';
+import ArtworkCard from './ArtworkCard';
 
 const ArtworkData = ({ artworkData }) => {
     const [loadedImages, setLoadedImages] = useState([]);
 
     const handleImageLoad = (index) => {
       setLoadedImages((prev) => [...prev, index]);
+    };
+
+    const cardOnclick = () => {
+      localStorage.setItem('artworkData', JSON.stringify(artworkData));
     };
 
   return (
@@ -16,23 +20,18 @@ const ArtworkData = ({ artworkData }) => {
         </div>
       ) : (
         artworkData.map((item, index) => (
-          <div key={index} className="col-md-4 text-center">
-            <img
-                src={item.imageUrl}
-                alt={item.title}
-                className="img-fluid"
-                onLoad={() => handleImageLoad(index)}
-                style={{ display: !loadedImages.includes(index) && 'none' }}
-              />
-              <div style={{ display: loadedImages.includes(index) ? 'none' : 'block'}} className="justify-content-center align-items-center">
-                <Spinner animation="border" />
-              </div>
-              <p className="mt-2">{item.title}</p>
-          </div>
+          <ArtworkCard
+            key={index}
+            item={item}
+            index={index}
+            loadedImages={loadedImages}
+            handleImageLoad={handleImageLoad}
+            cardOnclick={cardOnclick}
+          />
         ))
       )}
     </div>
   )
 }
 
-export default ArtworkData
+export default ArtworkData;
