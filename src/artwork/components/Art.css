@@ -1,0 +1,24 @@
+
+  
+  .art-content .card-img-top {
+    max-height: 400px;
+    width: auto;
+    margin: 0 auto;
+  }
+
+  .card-title {
+    text-align: center;
+  }
+
+  .review-label {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .rating-row {
+    align-items: center;
+  }
+  
+  .bookmark-icon {
+    font-size: 1.5rem;
+  }

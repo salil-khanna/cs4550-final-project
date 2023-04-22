@@ -38,7 +38,19 @@ const Search = () => {
     setLoading(true);
 
     const url = `https://api.artic.edu/api/v1/artworks/search?q=${searchTerm}&query[term][is_public_domain]=true&limit=20&fields=id,title,image_id`;
-    const response = await axios.get(url);
+    
+    // wrap in try catch, sending a toast if it errors
+    let response = "";
+    try {
+      response = await axios.get(url);
+    } catch (error) { 
+      toast.error("Error with search, please try again later");
+      setLoading(false);
+      return
+    }
+
+
+
     const result = response.data;
     const base_url = result.config.iiif_url;
 
