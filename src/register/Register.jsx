@@ -7,10 +7,13 @@ import { useMediaQuery } from 'react-responsive';
 import './Register.css';
 import RegisterStatue from '../img/register_statue.jpeg';
 import RedirectToProfile from '../utils/RedirectToProfile';
+import { useLocation } from 'react-router-dom';
 
 const Register = () => {
   const user_id = localStorage.getItem('user_id');
   const navigate = useNavigate();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/' } };
 
 
   const isMediumScreen = useMediaQuery({ minWidth: 768 });
@@ -116,7 +119,7 @@ const Register = () => {
                 toast.dismiss();
                 toastId.current = null;
             }
-            navigate('/');
+            navigate(from);
             }, 1000);
         } else {
             updateFinishLoading('Error with my coding skills woops. Registering not possible :(', 'error');

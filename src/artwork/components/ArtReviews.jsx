@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import ReviewCard from './ReviewCard';
+import { Rating } from '@mui/material';
 
-const ArtReviews = ({ reviews }) => {
+const ArtReviews = ({ reviews, averageRating }) => {
   const [numReviewsShown, setNumReviewsShown] = useState(4)
   const [displayedReviews, setDisplayedReviews] = useState([]); 
 
@@ -17,11 +18,19 @@ const ArtReviews = ({ reviews }) => {
     }, [reviews, numReviewsShown, setDisplayedReviews]);
 
   if (reviews.length === 0) {
-    return <p>Be the first to review!</p>;
+    return (
+        <div className="text-center mt-3">
+          <p className="mb-0"><strong className="h4">Be the first to review!</strong></p>
+        </div>
+      );
   }
 
   return (
     <div>
+      <div className="text-center mt-3">
+          <p className="mb-0"><strong className="h4">Average Rating:</strong></p>
+            <Rating value={averageRating} precision={0.5} readOnly />
+        </div>
       {displayedReviews.map((review) => (
         <ReviewCard key={review.review_id} review={review} />
       ))}

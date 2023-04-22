@@ -41,10 +41,10 @@ const Header = () => {
         </Col>
         }
         <Col xs={12} md={buttonMd} className={`d-flex justify-content-center ${buttonJustify} buttons-container`}>
-          {displayLogin && <Button size="sm" className="login-btn" onClick={() => navigate('/login')}>
+          {displayLogin && <Button size="sm" className="login-btn" onClick={() => navigate('/login', { state: { from: location } })}>
             Log in
           </Button> }
-          {displayRegister && <Button size="sm" className="register-btn" onClick={() => navigate('/register')}>
+          {displayRegister && <Button size="sm" className="register-btn" onClick={() => navigate('/register', { state: { from: location } })}>
             Register
           </Button>}
           {loggedIn && <Button size="sm" className="login-btn" onClick={() => navigate('/profile')}>

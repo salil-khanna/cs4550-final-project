@@ -1,9 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Container, Row, Col } from 'react-bootstrap';
+import { useMediaQuery } from 'react-responsive';
 import './Art.css'
 
 const ArtContent = ({ data }) => {
+
+    const isSmallScreen = useMediaQuery({ query: '(max-width: 575.98px)' });
+    const isMediumScreen = useMediaQuery({ query: '(min-width: 576px) and (max-width: 767.98px)' });
+
     const {
       art_info: {
         title,
@@ -27,8 +32,17 @@ const ArtContent = ({ data }) => {
             <Link to="/search" className="back-to-search">
               {'< Back to Search'}
             </Link>
-            <Card>
-              <Card.Img variant="top" className="mt-2" src={fullImageUrl} alt={alt_text} />
+            <Card
+            style={{
+              width: isSmallScreen ? '100%' : isMediumScreen ? '100%' : 'auto',
+            }}
+          >
+            <Card.Img
+              variant="top"
+              className="mt-2 img-fluid"
+              src={fullImageUrl}
+              alt={alt_text}
+            />
               <Card.Body>
                 <Card.Title className="card-title">{title}</Card.Title>
                 <Card.Text>

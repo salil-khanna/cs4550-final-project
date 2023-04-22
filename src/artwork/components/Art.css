@@ -2,6 +2,7 @@
   
   .art-content .card-img-top {
     max-height: 400px;
+    min-height: 300px;
     width: auto;
     margin: 0 auto;
   }
@@ -11,14 +12,17 @@
   }
 
   .review-label {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
   }
   
+  .heading-row {
+    margin-bottom: -0.5rem;
+  }
   .rating-row {
     align-items: center;
   }
-  
+
   .bookmark-icon {
     font-size: 1.5rem;
   }

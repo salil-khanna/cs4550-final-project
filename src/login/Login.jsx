@@ -7,10 +7,13 @@ import { useMediaQuery } from 'react-responsive';
 import './Login.css';
 import LoginPainting from '../img/login_painting.jpeg';
 import RedirectToProfile from '../utils/RedirectToProfile';
+import { useLocation } from 'react-router-dom';
 
 const Login = () => {
   const user_id = localStorage.getItem('user_id');
   const navigate = useNavigate();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/' } };
 
   const [formData, setFormData] = useState({
     username: '',
@@ -46,7 +49,7 @@ const Login = () => {
         updateFinishLoading(`Welcome ${formData.username}!`, "success");
 
         setTimeout(() => {
-          navigate('/');
+          navigate(from);
         }, 400);
       } else {
         updateFinishLoading('Error with my coding skills woops. Login not possible :(', 'error');
