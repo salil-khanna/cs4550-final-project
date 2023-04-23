@@ -7,6 +7,7 @@ import '../../login/Login.css'
 import OtherUsersDisplay from './OtherUsers';
 import { useMediaQuery } from 'react-responsive';
 import styles from './YourProfile.module.css'
+import UserReviews from './UserReviews';
 
 
 
@@ -115,6 +116,7 @@ const OtherProfile = ({ username }) => {
     </Dropdown>
     
     }
+    <UserReviews username={username}/>
 
     </Container>
   );

@@ -19,6 +19,18 @@ const DisplayThree = ({title, data, CardComponent, isLoading}) => {
       </div>
     );
   }
+  if (data.length === 0) {
+    return (
+      <div>
+        { !isSmall && <h4>{title}</h4> }
+        <div className="d-flex justify-content-center align-items-center">
+          <p>No {title} to display.</p>
+        </div>
+      </div>
+    );
+  }
+
+
   const cardTable = 
   (
     <div className="scrollable-container">
@@ -35,6 +47,7 @@ const DisplayThree = ({title, data, CardComponent, isLoading}) => {
   return (
     <Container className="mb-2">
       { !isSmall && <h4>{title}</h4> }
+      <hr className="m-0 mb-2"/>
       {isExtraLarge ? (
         (title === 'Other Profiles' || title === 'Reviews' ) ? cardTable :
         <Row>

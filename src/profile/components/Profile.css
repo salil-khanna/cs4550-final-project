@@ -1,0 +1,23 @@
+.user-review-card {
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .user-review-card:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .remove-margin-card-text {
+    margin-bottom: 4px;
+  }
+  
+  .user-review-image {
+    margin-top: 0.5rem;
+    height: 500px;
+    max-height: 300px;
+    width: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }

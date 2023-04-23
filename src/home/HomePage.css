@@ -86,4 +86,37 @@
       margin-left: 20px;
     }
   }
+
+  .horizontal-dropdown-menu {
+    width: 100%; /* Adjust this value to control the width of the dropdown bar */
+    margin-bottom: 1rem;
+  }
+
+  .horizontal-dropdown-menu .dropdown-item {
+    white-space: nowrap;
+  }
+
+  .carousel .slide {
+    height: 375px; /* Adjust this value to control the height of the carousel */
+    /* get rid of the border */
+    border: none !important;
+  }
+
+  .carousel-no-border {
+    border: none !important;
+  }
+  
+  .carousel-card-image {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .dropdown-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
   
