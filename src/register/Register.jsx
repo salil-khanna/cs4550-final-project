@@ -168,6 +168,7 @@ const Register = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
+                    placeholder="Enter password"
                     required
                     className="fix-margin "
                     isInvalid={formData.password && !isPasswordValid(formData.password)}
@@ -185,6 +186,7 @@ const Register = () => {
                 <Form.Control
                     type="password"
                     name="confirmPassword"
+                    placeholder="Confirm password"
                     value={matchingPassword}
                     onChange={(e) => { setMatchingPassword(e.target.value) }}
                     required
@@ -223,6 +225,7 @@ const Register = () => {
                 name="secretAnswer"
                 value={formData.secretAnswer}
                 onChange={handleChange}
+                placeholder="Enter answer"
                 className='fix-margin '
                 required
             />
@@ -235,6 +238,7 @@ const Register = () => {
                 name="aboutMe"
                 value={formData.aboutMe}
                 onChange={handleChange}
+                placeholder="About you!"
                 className='fix-margin '
                 required
             />
