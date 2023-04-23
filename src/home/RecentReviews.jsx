@@ -65,7 +65,7 @@ const RecentReviews = () => {
                 <Card className="user-review-card" onClick={() => navigate(`/art/${review.art_id}`)}>
                   <Row className="g-0">
                     <Col xs={5}>
-                      <Card.Img className="user-review-image ms-1 rounded" variant="top" src={review.art.image_url} />
+                      <Card.Img className="user-review-image ms-1 rounded mb-2" variant="top" src={review.art.image_url} />
                     </Col>
                     <Col xs={7}>
                       <Card.Body>
