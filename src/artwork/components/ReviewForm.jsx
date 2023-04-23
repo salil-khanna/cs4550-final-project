@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import './Art.css'
+import AppContext from '../../AppContext';
 
 
 const ReviewForm = ({ art, reviews, setReviews, bookmarked, averageRating, setAverageRating }) => {
@@ -89,7 +90,7 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, averageRating, setAv
         image_title: title,
         date_time: time,
       }
-      await axios.post('http://localhost:8080/reviews/', review);
+      await axios.post(`${AppContext.link}/reviews/`, review);
     // useSet reviews to update the reviews state, removing the old review and adding the new one if there is any old review
         setReviews((prevReviews) => {
             const newReviews = prevReviews.filter((prevReview) => prevReview.username !== username);
@@ -128,7 +129,7 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, averageRating, setAv
     }
 
     try {
-      await axios.delete(`http://localhost:8080/reviews/`, {
+      await axios.delete(`${AppContext.link}/reviews/`, {
         data: {
           art_id: id,
           user_id,
@@ -163,7 +164,7 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, averageRating, setAv
 
     if (!isBookmarked) {
         try {
-        await axios.post('http://localhost:8080/bookmarks/', {
+        await axios.post(`${AppContext.link}/bookmarks/`, {
             art_id: id,
             user_id,
             username,
@@ -176,7 +177,7 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, averageRating, setAv
         }
     } else {
         try {
-        await axios.delete(`http://localhost:8080/bookmarks/`, {
+        await axios.delete(`${AppContext.link}/bookmarks/`, {
             data: {
                 art_id: id,
                 user_id,

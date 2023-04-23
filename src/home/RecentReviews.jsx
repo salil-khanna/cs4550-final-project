@@ -7,6 +7,8 @@ import { Card, Row, Col, Spinner } from 'react-bootstrap';
 import { Rating } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
+import { toast } from 'react-toastify';
+import AppContext from '../AppContext';
 
 const RecentReviews = () => {
   const [recentReviews, setRecentReviews] = useState([]);
@@ -17,12 +19,12 @@ const RecentReviews = () => {
   useEffect(() => {
     const fetchRecentReviews = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/reviews/');
+        const response = await axios.get(`${AppContext.link}/reviews/`);
         const evenReviews = response.data.slice(0, response.data.length - (response.data.length % 2));
         setRecentReviews(evenReviews);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching recent reviews:', error);
+        toast.error('Error fetching recent reviews:', error);
       }
     };
 

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import RedirectToProfile from '../utils/RedirectToProfile';
 import { useMediaQuery } from 'react-responsive';
 import ForgetPasswordWave from '../img/newPassword_wave.jpeg';
+import AppContext from '../AppContext';
 
 const ForgetPassword = () => {
   const user_id = localStorage.getItem('user_id');
@@ -83,7 +84,7 @@ const ForgetPassword = () => {
     }
 
     try {
-        const apiLink = "http://localhost:8080/users/secret-question";
+        const apiLink = `${AppContext.link}/users/secret-question`;
         const response = await axios.post(apiLink, formData);
         if (response.status === 200) {
           updateFinishLoading('Answer to secret question was correct! Update your password.', 'success');
@@ -128,7 +129,7 @@ const ForgetPassword = () => {
     }
 
     try {
-        const apiLink = "http://localhost:8080/users/reset-password";
+        const apiLink = `${AppContext.link}/users/reset-password`;
         const response = await axios.put(apiLink, updatePasswordFormData);
         if (response.status === 201) {
           updateFinishLoading('Password successfully updated! Logging in...', 'success');

@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReviewCard from '../../utils/ReviewCard';
 import { toast } from 'react-toastify';
 import DisplayThree from '../../utils/DisplayThree';
+import AppContext from '../../AppContext';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -14,7 +15,7 @@ const Reviews = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/reviews/random/${user_id}/${username}`);
+        const response = await axios.get(`${AppContext.link}/reviews/random/${user_id}/${username}`);
         const fixedData = response.data.map((review) => {
             review.key = review.review_id;
             return review;

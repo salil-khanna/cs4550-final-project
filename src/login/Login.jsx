@@ -8,6 +8,7 @@ import './Login.css';
 import LoginPainting from '../img/login_painting.jpeg';
 import RedirectToProfile from '../utils/RedirectToProfile';
 import { useLocation } from 'react-router-dom';
+import AppContext from '../AppContext';
 
 const Login = () => {
   const user_id = localStorage.getItem('user_id');
@@ -41,7 +42,7 @@ const Login = () => {
         notify();
     }
     try {
-      const apiLink = "http://localhost:8080/users/login";
+      const apiLink = `${AppContext.link}/users/login`;
       const response = await axios.post(apiLink, formData);
       if (response.status === 200) {
         localStorage.setItem('user', formData.username);

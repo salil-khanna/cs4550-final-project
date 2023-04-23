@@ -3,6 +3,7 @@ import axios from 'axios';
 import BookmarkCard from '../../utils/BookmarkCard';
 import { toast } from 'react-toastify';
 import DisplayThree from '../../utils/DisplayThree';
+import AppContext from '../../AppContext';
 
 const Bookmarks = () => {
   const [bookmarks, setBookmarks] = useState([]);
@@ -14,7 +15,7 @@ const Bookmarks = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/bookmarks/random/${user_id}/${username}`);
+        const response = await axios.get(`${AppContext.link}/bookmarks/random/${user_id}/${username}`);
         const fixedData = response.data.map((bookmark) => {
             bookmark.key = bookmark.bookmark_id;
             return bookmark;

@@ -8,6 +8,7 @@ import './Register.css';
 import RegisterStatue from '../img/register_statue.jpeg';
 import RedirectToProfile from '../utils/RedirectToProfile';
 import { useLocation } from 'react-router-dom';
+import AppContext from '../AppContext';
 
 const Register = () => {
   const user_id = localStorage.getItem('user_id');
@@ -108,7 +109,7 @@ const Register = () => {
     }
 
     try {
-        const apiLink = "http://localhost:8080/users/register";
+        const apiLink = `${AppContext.link}/users/register`;
         const response = await axios.post(apiLink, formData);
         if (response.status === 201) {
             localStorage.setItem('user', formData.username);

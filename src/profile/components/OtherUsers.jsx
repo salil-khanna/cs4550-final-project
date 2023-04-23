@@ -3,6 +3,7 @@ import axios from 'axios';
 import UserCard from '../../utils/UserCard';
 import { toast } from 'react-toastify';
 import DisplayThree from '../../utils/DisplayThree';
+import AppContext from '../../AppContext';
 
 const OtherUsersDisplay = ({remove}) => {
   const [users, setUsers] = useState([]);
@@ -11,7 +12,7 @@ const OtherUsersDisplay = ({remove}) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/users');
+        const response = await axios.get(`${AppContext.link}/users`);
         const filteredUsers = response.data.filter(
           (user) => user.username !== localStorage.getItem('user') && user.username !== remove
         ).map((user) => {

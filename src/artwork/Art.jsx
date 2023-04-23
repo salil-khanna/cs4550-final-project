@@ -6,6 +6,7 @@ import GalleryContent from './components/GalleryContent';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import AppContext from '../AppContext';
 
 const Art = () => {
   const { art_id } = useParams();
@@ -17,7 +18,7 @@ const Art = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/art/${art_id}/${user_id}`);
+        const response = await axios.get(`${AppContext.link}/art/${art_id}/${user_id}`);
         const result = response.data;
         setData(result);
         setIsLoading(false);

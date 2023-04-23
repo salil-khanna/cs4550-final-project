@@ -15,8 +15,11 @@ import { ToastContainer } from 'react-toastify';
 import Header from './header/Header';
 import PageNotFound from './page-not-found/PageNotFound';
 import Art from './artwork/Art';
+import AppContext from './AppContext';
 
 function App() {
+  AppContext.link = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+
   return (
   <BrowserRouter>
     <div className="container">

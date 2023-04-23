@@ -8,6 +8,7 @@ import OtherUsersDisplay from './OtherUsers';
 import { useMediaQuery } from 'react-responsive';
 import styles from './YourProfile.module.css'
 import UserReviews from './UserReviews';
+import AppContext from '../../AppContext';
 
 
 
@@ -25,7 +26,7 @@ const OtherProfile = ({ username }) => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/users/${username}`);
+        const response = await axios.get(`${AppContext.link}/users/${username}`);
         setProfileData({
           username: username,
           aboutMe: response.data.aboutMe,

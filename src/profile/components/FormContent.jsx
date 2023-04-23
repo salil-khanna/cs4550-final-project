@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import AppContext from '../../AppContext';
 
 const FormContent = () => {
   const user_id = localStorage.getItem('user_id');
@@ -37,7 +38,7 @@ const FormContent = () => {
 
   useEffect(() => {
     if (user_id !== null) {
-        const apiLink = `http://localhost:8080/users/${username}/${user_id}`;
+        const apiLink = `${AppContext.link}/users/${username}/${user_id}`;
         axios.get(apiLink)
           .then((response) => {
             setInitialData({
@@ -163,7 +164,7 @@ const FormContent = () => {
     }
 
     try {
-      const baseApiLink = 'http://localhost:8080/users/update-user-info';
+      const baseApiLink = `${AppContext.link}/users/update-user-info`;
       const response = await axios.put(baseApiLink, {
         username: username,
         user_id: user_id,
@@ -206,7 +207,7 @@ const FormContent = () => {
     handleCloseModal();
 
     try {
-      const response = await axios.delete('http://localhost:8080/users/', {
+      const response = await axios.delete(`${AppContext.link}/users/`, {
         data : {
           username: username,
           user_id: user_id,
