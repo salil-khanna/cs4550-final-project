@@ -33,7 +33,15 @@ const ReviewCard = ({ review }) => {
       <ListGroupItem>
         <Row className="align-items-center justify-content-between">
             <Col xs="auto">
-                <strong> {username} {isOwnReview && ' (you)'} </strong>
+                <strong>
+                <a
+                    href={`/profile/${username}`}
+                    className="username-link"
+                >
+                    {username}
+                    {isOwnReview && ' (you)'}
+                </a>
+                </strong>
             </Col>
             <Col xs="auto" className="text-right">
                 <div>{date_timeDisplay}</div>

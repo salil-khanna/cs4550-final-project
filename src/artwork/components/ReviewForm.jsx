@@ -75,7 +75,8 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, averageRating, setAv
         const day = date.getDate();
         const year = date.getFullYear();
         // if hours > 12, subtract 12 from hours and add PM to the end otherwise AM
-        const time = `${hours > 12 ? hours - 12 : hours}:${minutes} ${hours > 12 ? 'pm' : 'am'} ${month}/${day}/${year}`;
+        // if minutes is less than 10, add a 0 to the front
+        const time = `${hours > 12 ? hours - 12 : hours}:${minutes < 10 ? '0' + minutes : minutes} ${hours > 12 ? 'pm' : 'am'} ${month}/${day}/${year}`;
 
 
       const review = {

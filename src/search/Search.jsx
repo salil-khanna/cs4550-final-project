@@ -88,6 +88,7 @@ const Search = () => {
     }
 
     setArtworkData(validImages);
+    localStorage.setItem('artworkData', JSON.stringify(validImages));
     setLoading(false);
   }, [searchTerm]);
 

@@ -14,12 +14,12 @@
     max-height: 100%;
   }
   
-  .user-card {
+  .display-three-card {
     cursor: pointer;
     transition: 0.3s;
   }
   
-  .user-card:hover {
+  .display-three-card:hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
   
@@ -28,12 +28,26 @@
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
   }
+  
   
   .card-container {
     display: inline-block;
     width: calc(100% / 3);
-    min-width: 280px; 
+    min-width: 300px; 
     margin-right: 10px;
+  }
+  
+  
+  .remove-bottom {
+    margin-bottom: -0.75rem;
+  }
+
+  .remove-margin-title {
+    margin-bottom: 0;
   }
   

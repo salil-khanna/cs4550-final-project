@@ -24,9 +24,9 @@ const DisplayThree = ({title, data, CardComponent, isLoading}) => {
     <div className="scrollable-container">
       <div className="d-flex">
         {data.map((bit) => (
-          <div key={bit.key} className="card-container">
-            <CardComponent bit={bit} />
-          </div>
+          <Col key={bit.key} className="card-container">
+            <CardComponent bit={bit} cutOff={24}/>
+          </Col>
         ))}
       </div>
     </div>
@@ -36,20 +36,22 @@ const DisplayThree = ({title, data, CardComponent, isLoading}) => {
     <Container className="mb-2">
       { !isSmall && <h4>{title}</h4> }
       {isExtraLarge ? (
+        (title === 'Other Profiles' || title === 'Reviews' ) ? cardTable :
         <Row>
           {data.map((bit) => (
             <Col key={bit.key} xl={4}>
-              <CardComponent bit={bit} />
+              <CardComponent bit={bit} cutOff={24}/>
             </Col>
           ))}
         </Row>
+          
       ) : isLarge || isMedium ? (
         cardTable
       ) : (
         <Row>
           {data.map((bit) => (
             <Col key={bit.key} sm={12} className="mb-2">
-              <CardComponent bit={bit} />
+              <CardComponent bit={bit} cutOff={40}/>
             </Col>
           ))}
         </Row>
