@@ -44,7 +44,7 @@ const ArtReviews = ({ reviews, averageRating, artId, setReviews, setAverageRatin
         setReviews(reviews.filter((review) => review.review_id !== review_id));
         setNumReviewsShown(numReviewsShown - 1);
         // setAverageRating to the new average rating after deleting the review, account for when there is only 1 review left
-        if (reviews.length === 1) {
+        if (reviews.length === 0) {
           setAverageRating(0);
         } else {
           setAverageRating((averageRating * reviews.length - response.data.rating) / (reviews.length - 1));
