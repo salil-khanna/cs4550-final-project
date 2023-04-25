@@ -116,6 +116,9 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, setAverageRating }) 
         localStorage.removeItem('user_id');
         localStorage.removeItem('user');
         localStorage.removeItem('isMod');
+        setTimeout(() => {
+          navigate('/', { replace: true });
+        }, 500);
       } else {
         toast.error('Error with server. Please try again later.');
       }
@@ -161,7 +164,17 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, setAverageRating }) 
       setReviewText('');
       setRating(0);
     } catch (error) {
+      if (error.response && error.response.status === 404) {
+        toast.error("User not found. Logging out...");
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user');
+        localStorage.removeItem('isMod');
+        setTimeout(() => {
+          navigate('/', { replace: true });
+        }, 500);
+      } else {
       toast.error('Error with server. Please try again later.');
+      }
     }
   };
 
@@ -188,6 +201,9 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, setAverageRating }) 
             localStorage.removeItem('user_id');
             localStorage.removeItem('user');
             localStorage.removeItem('isMod');
+            setTimeout(() => {
+              navigate('/', { replace: true });
+            }, 500);
           } else {
           toast.error('Error with server. Please try again later.');
           }
@@ -203,7 +219,17 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, setAverageRating }) 
         });
         setIsBookmarked(!isBookmarked);
         } catch (error) {
-        toast.error('Error with server. Please try again later.');
+          if (error.response && error.response.status === 404) {
+            toast.error("User not found. Logging out...");
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('user');
+            localStorage.removeItem('isMod');
+            setTimeout(() => {
+              navigate('/', { replace: true });
+            }, 500);
+          } else {
+          toast.error('Error with server. Please try again later.');
+          }
         }
     }
   };

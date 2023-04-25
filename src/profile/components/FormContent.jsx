@@ -194,6 +194,9 @@ const FormContent = () => {
         localStorage.removeItem('user_id');
         localStorage.removeItem('user');
         localStorage.removeItem('isMod');
+        setTimeout(() => {
+          navigate('/', { replace: true });
+        }, 500);
       } else {
           updateFinishLoading('Error with server, please wait and try again.', 'error');
       }
