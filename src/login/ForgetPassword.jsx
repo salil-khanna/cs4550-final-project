@@ -135,6 +135,7 @@ const ForgetPassword = () => {
           updateFinishLoading('Password successfully updated! Logging in...', 'success');
           localStorage.setItem('user', formData.username);
           localStorage.setItem('user_id', response.data.user_id);
+          localStorage.setItem('isMod', response.data.isMod);
 
           setTimeout(() => {
             if (toast.isActive(toastId.current)) {

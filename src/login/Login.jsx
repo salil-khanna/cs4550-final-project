@@ -47,6 +47,7 @@ const Login = () => {
       if (response.status === 200) {
         localStorage.setItem('user', formData.username);
         localStorage.setItem('user_id', response.data.user_id);
+        localStorage.setItem('isMod', response.data.isMod);
         updateFinishLoading(`Welcome ${formData.username}!`, "success");
 
         setTimeout(() => {

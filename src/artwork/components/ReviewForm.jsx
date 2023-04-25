@@ -12,7 +12,7 @@ import './Art.css'
 import AppContext from '../../AppContext';
 
 
-const ReviewForm = ({ art, reviews, setReviews, bookmarked, averageRating, setAverageRating }) => {
+const ReviewForm = ({ art, reviews, setReviews, bookmarked, setAverageRating }) => {
     const user_id = localStorage.getItem('user_id') || '';
     const username = localStorage.getItem('user') || '';
 
@@ -20,10 +20,10 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, averageRating, setAv
     const userReview = reviews.filter((review) => review.username === username);
     const userRating = userReview.length ? userReview[0].rating : 0;
     const userReviewText = userReview.length ? userReview[0].review : '';
-    const titleDisplay = userReviewText ? 'Edit' : 'Write';
+    const titleDisplay = userRating !== 0 ? 'Edit' : 'Write';
     const [titleDisplayState, setTitleDisplayState] = useState(titleDisplay);
     const [modalText, setModalText] = useState('review');
-    const buttonDisplay = userReviewText ? 'Update' : 'Submit';
+    const buttonDisplay = userRating !== 0 ? 'Update' : 'Submit';
     const [buttonDisplayState, setButtonDisplayState] = useState(buttonDisplay);
 
     const {
@@ -97,7 +97,7 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, averageRating, setAv
             return [review, ...newReviews];
         });
         // update the average rating, account for if the user already had a review
-        if (userReview.length) {
+        if (userRating !== 0) {
             setAverageRating((prevRating) => {
                 return (prevRating * reviews.length - userRating + rating) / reviews.length;
             });
@@ -143,6 +143,9 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, averageRating, setAv
       });
 
       setAverageRating((prevRating) => {
+        if (reviews.length === 1) {
+          return 0;
+        }
         return (prevRating * reviews.length - rating) / (reviews.length - 1);
       });
 

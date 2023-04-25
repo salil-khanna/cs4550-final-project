@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Row, Col, Container, Form, Button } from 'react-bootstrap';
+import { Row, Col, Container, Form, Button, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useMediaQuery } from 'react-responsive';
 import './Register.css';
@@ -19,7 +19,6 @@ const Register = () => {
 
   const isMediumScreen = useMediaQuery({ minWidth: 768 });
   const isLargeScreen = useMediaQuery({ minWidth: 992 });
-  const registerButton = isMediumScreen ? '' : 'text-center';
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -82,6 +81,23 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModCodeChange = (e) => {
+    setFormData({ ...formData, modCode: e.target.value });
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const [mod, setMod] = useState(false);
+
   const toastId = React.useRef(null);
   const notify = () => toastId.current = toast.loading("Please wait...");
   const updateLoading = () => toast.update(toastId.current);
@@ -113,8 +129,11 @@ const Register = () => {
         const response = await axios.post(apiLink, formData);
         if (response.status === 201) {
             localStorage.setItem('user', formData.username);
-            localStorage.setItem('user_id', response.data.user_id); 
-            updateFinishLoading('User successfully created! Logging in...', 'success');
+            localStorage.setItem('user_id', response.data.user_id);
+            const {isMod} = response.data;
+            localStorage.setItem('isMod', isMod);
+            const welcomeText = isMod ? 'Moderator' : 'User';
+            updateFinishLoading(`${welcomeText} successfully created! Logging in...`, 'success');
             setTimeout(() => {
             if (toast.isActive(toastId.current)) {
                 toast.dismiss();
@@ -263,12 +282,43 @@ const Register = () => {
                 ))}
             </Form.Control>
             </Form.Group>
+
             
-            <div className={registerButton}>
-                <Button variant="primary" type="submit" className="mt-2">
-                Register
-                </Button>
-            </div>
+
+            <Row>
+        <Col xs={12} md={6} className="d-flex justify-content-md-start justify-content-center mb-2">
+          <Button variant="primary" type="submit" className="mt-2">
+            Register
+          </Button>
+        </Col>
+        <Col xs={12} md={6} className="d-flex justify-content-md-end justify-content-center mb-2">
+          {mod ?
+        
+            <Button
+            variant="danger"
+            className="mt-2"
+            onClick={
+                () => {
+
+                    setMod(false);
+                    handleModCodeChange({ target: { value: "" } });
+                }
+            }
+          >
+              Remove Mod Permissions.
+          </Button> 
+          
+          :
+          
+          <Button
+            variant="secondary"
+            className="mt-2"
+            onClick={openModal}
+          >
+              Enable Moderator Permissions?
+          </Button> }
+        </Col>
+      </Row>
         </Form>
       </Col>
       {isLargeScreen && <Col md={1}></Col>}
@@ -284,6 +334,45 @@ const Register = () => {
         )}
     </Row>
     }
+
+<Modal show={showModal} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Enter Moderator Code</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group controlId="modCode">
+            <Form.Label>Mod Code</Form.Label>
+            <Form.Control
+              type="password"
+              name="modCode"
+              value={formData.modCode}
+              onChange={handleModCodeChange}
+              placeholder="Enter valid mod code to grant permissions."
+              className="fix-margin "
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={(e) => {
+              closeModal();
+              if (formData.modCode !== process.env.REACT_APP_MOD_CODE) {
+                toast.error("Invalid mod code.");
+                handleModCodeChange({ target: { value: "" } });
+              } else {
+                toast.success("Valid mod code!");
+                setMod(true);
+              }
+            }}
+          >
+            Request Permissions
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

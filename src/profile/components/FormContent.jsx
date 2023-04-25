@@ -62,6 +62,7 @@ const FormContent = () => {
               toast.error(error.response.data.error);
               localStorage.removeItem('user_id');
               localStorage.removeItem('user');
+              localStorage.removeItem('isMod');
             } else {
               toast.error('Error with server, redirecting to home page.');
             }
@@ -192,6 +193,7 @@ const FormContent = () => {
         updateFinishLoading(error.response.data.error, 'warning'); 
         localStorage.removeItem('user_id');
         localStorage.removeItem('user');
+        localStorage.removeItem('isMod');
       } else {
           updateFinishLoading('Error with server, please wait and try again.', 'error');
       }
@@ -214,7 +216,8 @@ const FormContent = () => {
         }});
       if (response.status === 200) {
         localStorage.removeItem('user');
-        localStorage.removeItem('id');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('isMod')
         toast.success('User Successfully Deleted!');
 
         setTimeout(() => {
@@ -228,12 +231,29 @@ const FormContent = () => {
     }
   };
 
+  const isMod = localStorage.getItem('isMod') === 'true';
+
+  const renderModerator = 
+  isMod ? <Form.Group controlId="modstatus">
+                  <Form.Label>Moderator</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="modstatus"
+                    value="TRUE"
+                    readOnly
+                    className="fix-margin bg-gray text-dark"
+                  />
+                </Form.Group> : null;
+
+
   return (isLoading ? (
     <div className="d-flex justify-content-center align-items-center">
       <Spinner animation="border" />
     </div>
   ) :(
           <Form onSubmit={handleSubmit}>
+            {renderModerator}
+
             <Form.Group controlId="username">
               <Form.Label>Username</Form.Label>
               <Form.Control

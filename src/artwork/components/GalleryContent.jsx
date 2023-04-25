@@ -8,10 +8,9 @@ const GalleryContent = ({art, galleryInfo}) => {
 
   return (
     <>
-        <ReviewForm art={art} reviews={reviews} setReviews={setReviews} bookmarked={galleryInfo.isBookmarked}
-        averageRating={averageRating} setAverageRating={setAverageRating}
+        <ReviewForm art={art} reviews={reviews} setReviews={setReviews} bookmarked={galleryInfo.isBookmarked} setAverageRating={setAverageRating}
         />
-        <ArtReviews reviews={reviews} averageRating={averageRating}/>
+        <ArtReviews reviews={reviews} setReviews={setReviews} averageRating={averageRating} artId={art.art_info.id}/>
     </>
   )
 }

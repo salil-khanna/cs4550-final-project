@@ -7,23 +7,43 @@ import { Rating } from '@mui/material';
 import './Profile.css'
 import AppContext from '../../AppContext';
 
-const useLoadMore = (initialCount) => {
-  const [count, setCount] = useState(initialCount);
-
-  const incrementCount = () => {
-    setCount(count + 3);
-  };
-
-  return [count, incrementCount];
-};
-
 const UserReviews = ({ username }) => {
   const [reviews, setReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const [displayedReviewsCount, setCount] = useState(3);
+  const incrementDisplayedReviewsCount = () => setCount(displayedReviewsCount + 3);
 
-  const [displayedReviewsCount, incrementDisplayedReviewsCount] = useLoadMore(3);
+  const isMod = localStorage.getItem('isMod') === 'true';
+  const user_id = localStorage.getItem('user_id')
+
+  // write a function called delete review which calls the endpoint to delete a review, takes in the review_id and art_id
+  const deleteReview = async (review_id, art_id) => {
+    if (!isMod) {
+      toast.error('You are not authorized to delete reviews!');
+      return;
+    }
+    
+    try {
+      const response = await axios.delete(`${AppContext.link}/reviews/mod`, {
+        data: {
+          review_id,
+          art_id,
+          user_id
+        },
+      });
+      if (response.status === 200) {
+        toast.success('Review deleted!');
+        setReviews(reviews.filter((review) => review.review_id !== review_id));
+        setCount(displayedReviewsCount - 1);
+      } else {
+        toast.error('Error with deleting review...');
+      }
+    } catch (error) {
+      toast.error('Error with deleting review...');
+    }
+  };
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -95,16 +115,22 @@ const UserReviews = ({ username }) => {
                         <Rating name="read-only" value={review.rating} readOnly />
                       </div>
                     </Card.Text>
-
                   </Card.Body>
                 </Card>
+                {isMod && (
+                  <div className="text-center">
+                      <Button variant="danger" onClick={() => deleteReview(review.review_id, review.art_id)} >
+                        Delete User Review
+                      </Button>
+                      </div>
+                    )}
               </Col>
             ))}
           </Row></> }
       {reviews.length > displayedReviews.length && (
         <Row>
           <Col className="text-center">
-            <Button onClick={incrementDisplayedReviewsCount}>See more</Button>
+            <Button onClick={incrementDisplayedReviewsCount}>See More Reviews</Button>
           </Col>
         </Row>
       )} 

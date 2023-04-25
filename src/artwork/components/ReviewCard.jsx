@@ -3,7 +3,7 @@ import { ListGroupItem, ListGroup, Card, Row, Col } from 'react-bootstrap';
 import { Rating } from '@mui/material';
 import './Art.css'
 
-const ReviewCard = ({ review }) => {
+const ReviewCard = ({ review, isMod, deleteReview }) => {
   const { username, review: text, rating, date_time } = review;
 
   const isOwnReview = username === localStorage.getItem('user');
@@ -55,6 +55,21 @@ const ReviewCard = ({ review }) => {
           <Rating value={rating} precision={0.5} readOnly />
         </Col>
       </ListGroupItem>
+      {isMod && !isOwnReview && (
+        <ListGroupItem>
+          <Row className="justify-content-end">
+            <Col xs="auto">
+              <button
+                className="btn btn-danger"
+                onClick={() => deleteReview(review.review_id)}
+              >
+                Delete User Review
+              </button>
+            </Col>
+          </Row>
+        </ListGroupItem>
+      )}
+
     </ListGroup>
   );
 };
