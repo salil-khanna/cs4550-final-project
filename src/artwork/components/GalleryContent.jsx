@@ -10,7 +10,7 @@ const GalleryContent = ({art, galleryInfo}) => {
     <>
         <ReviewForm art={art} reviews={reviews} setReviews={setReviews} bookmarked={galleryInfo.isBookmarked} setAverageRating={setAverageRating}
         />
-        <ArtReviews reviews={reviews} setReviews={setReviews} averageRating={averageRating} artId={art.art_info.id}/>
+        <ArtReviews reviews={reviews} setReviews={setReviews} averageRating={averageRating} setAverageRating={setAverageRating} artId={art.art_info.id}/>
     </>
   )
 }

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import AppContext from '../../AppContext';
 
-const ArtReviews = ({ reviews, averageRating, artId, setReviews }) => {
+const ArtReviews = ({ reviews, averageRating, artId, setReviews, setAverageRating }) => {
   const [numReviewsShown, setNumReviewsShown] = useState(4)
   const [displayedReviews, setDisplayedReviews] = useState([]); 
 
@@ -43,6 +43,12 @@ const ArtReviews = ({ reviews, averageRating, artId, setReviews }) => {
         toast.success('Review deleted!');
         setReviews(reviews.filter((review) => review.review_id !== review_id));
         setNumReviewsShown(numReviewsShown - 1);
+        // setAverageRating to the new average rating after deleting the review, account for when there is only 1 review left
+        if (reviews.length === 1) {
+          setAverageRating(0);
+        } else {
+          setAverageRating((averageRating * reviews.length - response.data.rating) / (reviews.length - 1));
+        }
       } else {
         toast.error('Error with deleting review...');
       }
