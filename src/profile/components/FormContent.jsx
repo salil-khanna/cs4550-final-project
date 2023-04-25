@@ -218,7 +218,8 @@ const FormContent = () => {
         localStorage.removeItem('user');
         localStorage.removeItem('user_id');
         localStorage.removeItem('isMod')
-        toast.success('User Successfully Deleted!');
+        const accountType = isMod ? 'Moderator' : 'User';
+        toast.success(`${accountType} Successfully Deleted!`);
 
         setTimeout(() => {
           navigate('/');

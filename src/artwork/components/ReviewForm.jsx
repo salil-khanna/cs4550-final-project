@@ -111,7 +111,14 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, setAverageRating }) 
         setButtonDisplayState('Update');
         toast.dismiss();
     } catch (error) {
-      toast.error('Error with server. Please try again later.');
+      if (error.response && error.response.status === 404) {
+        toast.error("User not found. Logging out...");
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user');
+        localStorage.removeItem('isMod');
+      } else {
+        toast.error('Error with server. Please try again later.');
+      }
     }
   };
 
@@ -176,7 +183,14 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, setAverageRating }) 
         });
         setIsBookmarked(!isBookmarked);
         } catch (error) {
-        toast.error('Error with server. Please try again later.');
+          if (error.response && error.response.status === 404) {
+            toast.error("User not found. Logging out...");
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('user');
+            localStorage.removeItem('isMod');
+          } else {
+          toast.error('Error with server. Please try again later.');
+          }
         }
     } else {
         try {
