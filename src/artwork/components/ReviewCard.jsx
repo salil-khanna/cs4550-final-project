@@ -61,7 +61,7 @@ const ReviewCard = ({ review, isMod, deleteReview }) => {
             <Col xs="auto">
               <button
                 className="btn btn-danger"
-                onClick={() => deleteReview(review.review_id)}
+                onClick={() => deleteReview(review.review_id, rating)}
               >
                 Delete User Review
               </button>

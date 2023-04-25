@@ -25,7 +25,7 @@ const ArtReviews = ({ reviews, averageRating, artId, setReviews, setAverageRatin
   const user_id = localStorage.getItem('user_id')
 
   // write a function called delete review which calls the endpoint to delete a review, takes in the review_id and art_id
-  const deleteReview = async (review_id) => {
+  const deleteReview = async (review_id, rating) => {
     if (!isMod) {
       toast.error('You are not authorized to delete reviews!');
       return;
@@ -47,7 +47,7 @@ const ArtReviews = ({ reviews, averageRating, artId, setReviews, setAverageRatin
         if (reviews.length === 0) {
           setAverageRating(0);
         } else {
-          setAverageRating((averageRating * reviews.length - response.data.rating) / (reviews.length - 1));
+          setAverageRating((averageRating * reviews.length - rating) / (reviews.length - 1));
         }
       } else {
         toast.error('Error with deleting review...');
