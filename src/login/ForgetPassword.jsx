@@ -208,6 +208,7 @@ const ForgetPassword = () => {
                     value={formData.secretAnswer}
                     onChange={handleChange}
                     className='fix-margin'
+                    placeholder='Enter answer to secret question'
                     required
                   />
                 </Form.Group>
@@ -234,6 +235,7 @@ const ForgetPassword = () => {
                     onChange={handleChangePassword}
                     required
                     className="fix-margin"
+                    placeholder='Enter new password'
                     isInvalid={updatePasswordFormData.password && !isPasswordValid(updatePasswordFormData.password)}
                   />
                   <Form.Text className="text-muted">
@@ -253,6 +255,7 @@ const ForgetPassword = () => {
                         onChange={(e) => { setMatchingPassword(e.target.value) }}
                         required
                         className="fix-margin "
+                        placeholder='Confirm new password'
                         isInvalid={matchingPassword && (updatePasswordFormData.password !== matchingPassword)}
                     />
                     <Form.Control.Feedback type="invalid" className="fix-margin">
