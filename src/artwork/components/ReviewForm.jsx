@@ -205,7 +205,7 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, setAverageRating }) 
               navigate('/', { replace: true });
             }, 500);
           } else {
-          toast.error('Error with server. Please try again later.');
+            toast.error('Error with server. Please try again later.');
           }
         }
     } else {

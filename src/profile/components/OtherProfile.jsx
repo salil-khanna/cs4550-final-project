@@ -75,7 +75,6 @@ const OtherProfile = ({ username }) => {
         toast.error('Error with deleting user...');
       }
     } catch (error) {
-      console.log(error)
       toast.error('Error with deleting user...');
     }
   };
