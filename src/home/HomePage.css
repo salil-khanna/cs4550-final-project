@@ -6,8 +6,10 @@
   }
   
   .logo-and-search {
-    margin-top: 7rem;
+    margin-top: 6rem;
   }
+  
+  
   .logo {
     width: 150px;
     height: auto;
@@ -119,4 +121,70 @@
     margin-top: 1rem;
   }
   
+  
+  .details-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  .dropdown-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .details-dropdown {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .details-summary {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    padding: 0.5rem 1rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 0.25rem;
+    user-select: none;
+    max-width: 30%; /* Adjust the width here */
+    margin: 0 auto; /* Add this line to center the button */
+    /* on phone screens change width to 50% */
+    @media (max-width: 575.98px) {
+      max-width: 50%;
+    }
+  }
+  
+  
+  
+  .arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid currentColor;
+    margin-right: 8px;
+    transition: transform 0.2s ease;
+  }
+  
+  .details-dropdown.open .arrow {
+    transform: rotate(90deg);
+  }
+  
+  .details-content {
+    display: none;
+    text-align: center;
+    background-color: #c4d0d8;
+  }
+  
+  .details-dropdown.open .details-content {
+    display: block;
+  }
   

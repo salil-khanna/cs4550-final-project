@@ -244,14 +244,15 @@ const ReviewForm = ({ art, reviews, setReviews, bookmarked, setAverageRating }) 
                 <Col className="review-label ">
                 {titleDisplayState} your review:
                 </Col>
-                <Col className="d-flex justify-content-end">
-                {titleDisplayState === "Edit" && <Button
+                
+                { titleDisplayState === "Edit" && <Col className="d-flex justify-content-end">
+                <Button
                     variant="danger"
                     onClick={handleDelete}
                 >
                     Delete Review
-                </Button> }
-                </Col>
+                </Button> 
+                </Col> }
             </Row>
             <Form.Label/>
               <Form.Control

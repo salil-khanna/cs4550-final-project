@@ -10,11 +10,12 @@ import { useMediaQuery } from 'react-responsive';
 import { toast } from 'react-toastify';
 import AppContext from '../AppContext';
 
-const RecentReviews = () => {
+const RecentReviews = ({dropdownOpen}) => {
   const [recentReviews, setRecentReviews] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const isMedium = useMediaQuery({ query: '(min-width: 768px)' });
+  const isMobile = useMediaQuery({ query: '(max-width: 575px)' });
 
   useEffect(() => {
     const fetchRecentReviews = async () => {
@@ -33,7 +34,7 @@ const RecentReviews = () => {
 
     if (loading) { 
         return (
-           <div>
+           <div className="mt-2">
               <Spinner animation="border" />
             </div>
           );
@@ -55,21 +56,32 @@ const RecentReviews = () => {
     return <div>No recent reviews to display!</div>;
   }
 
+  if (!dropdownOpen)  {
+    return;
+  }
+
   return (
-    <Carousel autoPlay interval={2500} infiniteLoop showStatus={true} showThumbs={false} showIndicators={true} className="carousel-no-border">
+    <Carousel autoPlay interval={3000} infiniteLoop showStatus={true} showThumbs={false} showIndicators={true} useKeyboardArrows={true}>
       {reviewPairs.map((pair, index) => (
         <div key={index}>
-          <Row className="ms-2 me-2">
+          <Row className="ms-3 me-3 mt-2">
             {pair.map((review) => (
               <Col key={review.review_id} md={6}>
                 <Card className="user-review-card" onClick={() => navigate(`/art/${review.art_id}`)}>
                   <Row className="g-0">
                     <Col xs={5}>
-                      <Card.Img className="user-review-image ms-1 rounded mb-2" variant="top" src={review.art.image_url} />
+                      <Card.Img className="user-review-image ms-2 rounded mb-2" variant="top" src={review.art.image_url} />
                     </Col>
                     <Col xs={7}>
                       <Card.Body>
-                        <Card.Title>{review.art.image_title}</Card.Title>
+                        <Card.Title>
+                          { isMobile ?
+                            (review.art.image_title.length > 25 ? review.art.image_title.slice(0,25) + "..." : review.art.image_title)
+                          :
+                          review.art.image_title
+                          }
+                          
+                          </Card.Title>
                         <Card.Text className="remove-margin-card-text">
                           <strong>Username: </strong>
                           <div>{review.username}</div>
