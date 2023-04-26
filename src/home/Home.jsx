@@ -79,7 +79,7 @@ const Home = () => {
           </a>
         </Row>
         <div className="shorten">
-          <form onSubmit={handleSearchSubmit} className="row mt-2 search-row">
+          <form onSubmit={handleSearchSubmit} className="row mt-1 search-row">
             <div className="col-12 col-sm-9 mt-2">
               <input
                 type="text"
