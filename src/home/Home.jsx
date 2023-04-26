@@ -53,7 +53,7 @@ const Home = () => {
           </a>
         </Row>
         <div className="shorten">
-          <form onSubmit={handleSearchSubmit} className="row mt-1 search-row">
+          <form onSubmit={handleSearchSubmit} className={`row search-row ${isMobile && "mt-1"}`}>
             <div className="col-12 col-sm-9 mt-2">
               <input
                 type="text"
@@ -73,7 +73,7 @@ const Home = () => {
       </div>
       <Row className="text-center">
         <Row className="dropdown-wrapper">
-          <div className={`details-dropdown mt-2${isDropdownOpen ? ' open' : ''}`} >
+          <div className={`details-dropdown ${isDropdownOpen ? ' open' : ''}`} >
             <div className="details-summary" onClick={toggleDropdown}>
               <span className="arrow"></span>
               <span>Recent Reviews!</span>

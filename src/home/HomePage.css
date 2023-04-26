@@ -155,9 +155,11 @@
     user-select: none;
     max-width: 30%; /* Adjust the width here */
     margin: 0 auto; /* Add this line to center the button */
+    margin-top: 0.75rem;
     /* on phone screens change width to 50% */
     @media (max-width: 575.98px) {
-      max-width: 50%;
+      max-width: 60%;
+      margin-top: 0.5rem;
     }
   }
   
@@ -182,6 +184,7 @@
     display: none;
     text-align: center;
     background-color: #c4d0d8;
+    border-radius: 5px;
   }
   
   .details-dropdown.open .details-content {
