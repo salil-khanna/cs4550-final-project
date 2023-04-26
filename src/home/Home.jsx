@@ -1,37 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecentReviews from './RecentReviews';
-import { Container, Row, Col, Image, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Image } from 'react-bootstrap';
 import './HomePage.css';
 import { toast } from 'react-toastify';
 import { useMediaQuery } from 'react-responsive';
 import LogoHeader from '../img/logo512.png';
-import { usePopper } from 'react-popper';
-
-const CustomDropdownMenu = React.forwardRef(
-  ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
-    const [popperElement, setPopperElement] = useState(null);
-    const { styles, attributes } = usePopper(ref, popperElement, {
-      modifiers: [
-        { name: 'offset', options: { offset: [0, 10] } },
-        { name: 'flip', enabled: true },
-      ],
-      placement: 'bottom',
-    });
-
-    return (
-      <div
-        ref={setPopperElement}
-        style={{ ...styles.popper, ...style }}
-        className={className}
-        aria-labelledby={labeledBy}
-        {...attributes.popper}
-      >
-        {children}
-      </div>
-    );
-  },
-);
 
 
 const Home = () => {
