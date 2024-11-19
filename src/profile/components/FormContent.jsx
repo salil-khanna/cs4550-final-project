@@ -107,21 +107,66 @@ const FormContent = () => {
     return hasUpperCase && hasLowerCase && hasNumber && hasNonAlphaNumeric;
   };
 
-  const missingValues = (password) => {
-    const missingUppercase = !(/[A-Z]/.test(password)) ? ' uppercase letter;' : '';
-    const missingLowercase = !(/[a-z]/.test(password)) ? ' lowercase letter;' : '';
-    const missingNumber = !(/\d/.test(password)) ? ' number;' : '';
-    const missingNonAlphaNumeric = !(/[\W_]/.test(password)) ? ' non-alphanumeric character;' : '';
+  // const missingValues = (password) => {
+  //   const missingUppercase = !(/[A-Z]/.test(password)) ? ' uppercase letter;' : '';
+  //   const missingLowercase = !(/[a-z]/.test(password)) ? ' lowercase letter;' : '';
+  //   const missingNumber = !(/\d/.test(password)) ? ' number;' : '';
+  //   const missingNonAlphaNumeric = !(/[\W_]/.test(password)) ? ' non-alphanumeric character;' : '';
 
-    return missingUppercase + missingLowercase + missingNumber + missingNonAlphaNumeric;
-  }
+  //   return missingUppercase + missingLowercase + missingNumber + missingNonAlphaNumeric;
+  // }
+
+  const getMissingCriteria = (password, passwordHidden) => {
+    if (passwordHidden) {
+      return {
+        uppercase: false,
+        lowercase: false,
+        number: false,
+        nonAlphaNumeric: false,
+      };
+    }
+
+    return {
+      uppercase: !/[A-Z]/.test(password),
+      lowercase: !/[a-z]/.test(password),
+      number: !/\d/.test(password),
+      nonAlphaNumeric: !/[\W_]/.test(password),
+    };
+  };
+
+  const missingCriteria = getMissingCriteria(formData.password, passwordHidden);
+
+  const renderCriteria = () => {
+    return (
+      <>
+        Your password must have at least 
+        {' '}
+        <span style={{ color: missingCriteria.uppercase ? 'red' : 'inherit' }}>
+          one uppercase character
+        </span>
+        {', '}
+        <span style={{ color: missingCriteria.lowercase ? 'red' : 'inherit' }}>
+          one lowercase character
+        </span>
+        {', '}
+        <span style={{ color: missingCriteria.number ? 'red' : 'inherit' }}>
+          one number
+        </span>
+        {', and '}
+        <span style={{ color: missingCriteria.nonAlphaNumeric ? 'red' : 'inherit' }}>
+          one non-alphanumeric character
+        </span>
+        .
+      </>
+    );
+  };
 
   const handleSelectFocus = (e) => {
     e.target.firstChild.setAttribute('disabled', 'true');
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value, modified: true });
   };
 
   const handleChangeAndRevealSecretAnswer = (event) => {
@@ -290,11 +335,12 @@ const FormContent = () => {
                     isInvalid={formData.password && !isPasswordValid(formData.password)}
                 /> }
                 <Form.Text className="text-muted" >
-                    Your password must have at least one uppercase character, one number, and one non-alphanumeric character.
+                    {/* Your password must have at least one uppercase character, one number, and one non-alphanumeric character. */}
+                    {renderCriteria()}
                 </Form.Text>
-                <Form.Control.Feedback type="invalid" className="fix-margin">
+                {/* <Form.Control.Feedback type="invalid" className="fix-margin">
                     { "Please enter a valid password. Missing:" + missingValues(formData.password) }
-                </Form.Control.Feedback>
+                </Form.Control.Feedback> */}
             </Form.Group>
 
             <Form.Group controlId="confirmPassword">
